@@ -3,7 +3,6 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/helper/functions/global_methods.dart';
 import '../../../core/utils/utils.dart';
@@ -32,35 +31,35 @@ class WishlistView extends StatelessWidget {
           )
         : Scaffold(
             appBar: AppBar(
-                centerTitle: true,
-                leading: const BackWidget(),
-                automaticallyImplyLeading: false,
-                elevation: 0,
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                title: CustomText(
-                  // text: 'Wishlist (${wishlistItemsList.length})',
-                  text: "Wishlist 23",
-                  // color: color,
-                  isTitle: true,
-                  fontSize: 22,
+              centerTitle: true,
+              leading: const BackWidget(),
+              automaticallyImplyLeading: false,
+              elevation: 0,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              title: CustomText(
+                // text: 'Wishlist (${wishlistItemsList.length})',
+                text: "Wishlist 23",
+                // color: color,
+                isTitle: true,
+                fontSize: 22,
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    GlobalMethods.warningDialog(
+                      title: 'Empty your wishlist?',
+                      subtitle: 'Are you sure?',
+                      fct: () async {
+                        // await wishlistProvider.clearOnlineWishlist();
+                        // wishlistProvider.clearLocalWishlist();
+                      },
+                      context: context,
+                    );
+                  },
+                  icon: Icon(IconlyBroken.delete),
                 ),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      GlobalMethods.warningDialog(
-                          title: 'Empty your wishlist?',
-                          subtitle: 'Are you sure?',
-                          fct: () async {
-                            // await wishlistProvider.clearOnlineWishlist();
-                            // wishlistProvider.clearLocalWishlist();
-                          },
-                          context: context);
-                    },
-                    icon: Icon(
-                      IconlyBroken.delete,
-                    ),
-                  ),
-                ]),
+              ],
+            ),
             body: MasonryGridView.count(
               // itemCount: wishlistItemsList.length,
               itemCount: 10,
@@ -68,11 +67,12 @@ class WishlistView extends StatelessWidget {
               // mainAxisSpacing: 16,
               // crossAxisSpacing: 20,
               itemBuilder: (context, index) {
-                return WishlistWidget();
+                return WishlistItem();
                 // return ChangeNotifierProvider.value(
                 //     value: wishlistItemsList[index],
                 //     child: const WishlistWidget());
               },
-            ));
+            ),
+          );
   }
 }

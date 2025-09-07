@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class FetchScreen extends StatefulWidget {
   const FetchScreen({super.key});
-
+  static const routeName = '/fetch-screen';
   @override
   State<FetchScreen> createState() => _FetchScreenState();
 }
@@ -50,14 +50,8 @@ class _FetchScreenState extends State<FetchScreen> {
             fit: BoxFit.cover,
             height: double.infinity,
           ),
-          Container(
-            color: Colors.black.withOpacity(0.7),
-          ),
-          const Center(
-            child: SpinKitFadingFour(
-              color: Colors.white,
-            ),
-          )
+          Container(color: Colors.black.withOpacity(0.7)),
+          const Center(child: SpinKitFadingFour(color: Colors.white)),
         ],
       ),
     );

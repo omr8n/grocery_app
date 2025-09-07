@@ -48,102 +48,102 @@ class _OnSaleItemState extends State<OnSaleItem> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FancyShimmerImage(
-                        //  imageUrl: productModel.imageUrl,
-                        imageUrl:
-                            "https://m.media-amazon.com/images/I/61dV53UuRVS.__AC_SX300_SY300_QL70_FMwebp_.jpg",
-                        height: size.width * 0.22,
-                        width: size.width * 0.22,
-                        boxFit: BoxFit.fill,
-                      ),
-                      Column(
-                        children: [
-                          CustomText(
-                            //text: productModel.isPiece ? '1Piece' : '1KG',
-                            text: "1KG",
-                            // color: color,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FancyShimmerImage(
+                      //  imageUrl: productModel.imageUrl,
+                      imageUrl:
+                          "https://m.media-amazon.com/images/I/61dV53UuRVS.__AC_SX300_SY300_QL70_FMwebp_.jpg",
+                      height: size.width * 0.22,
+                      width: size.width * 0.22,
+                      boxFit: BoxFit.fill,
+                    ),
+                    SizedBox(width: 8),
+                    Column(
+                      children: [
+                        CustomText(
+                          //text: productModel.isPiece ? '1Piece' : '1KG',
+                          text: "1KG",
 
-                            fontSize: 22,
-                            isTitle: true,
-                          ),
-                          const SizedBox(
-                            height: 6,
-                          ),
-                          Row(
-                            children: [
-                              GestureDetector(
-                                // onTap: _isInCart
-                                //     ? null
-                                //     : () async {
-                                //         final User? user =
-                                //             authInstance.currentUser;
+                          // color: color,
+                          fontSize: 22,
+                          isTitle: true,
+                        ),
+                        const SizedBox(height: 6),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              // onTap: _isInCart
+                              //     ? null
+                              //     : () async {
+                              //         final User? user =
+                              //             authInstance.currentUser;
 
-                                //         if (user == null) {
-                                //           GlobalMethods.errorDialog(
-                                //               subtitle:
-                                //                   'No user found, Please login first',
-                                //               context: context);
-                                //           return;
-                                //         }
-                                //         await GlobalMethods.addToCart(
-                                //             productId: productModel.id,
-                                //             quantity: 1,
-                                //             context: context);
-                                //         await cartProvider.fetchCart();
-                                //         // cartProvider.addProductsToCart(
-                                //         //     productId: productModel.id,
-                                //         //     quantity: 1);
-                                //       },
-                                child: Icon(
-                                  IconlyLight.bag2,
-                                  size: 22,
-                                  color: Colors.green,
-                                ),
-                                // child: Icon(
-                                //   _isInCart
-                                //       ? IconlyBold.bag2
-                                //       : IconlyLight.bag2,
-                                //   size: 22,
-                                //   color: _isInCart ? Colors.green : color,
-                                // ),
+                              //         if (user == null) {
+                              //           GlobalMethods.errorDialog(
+                              //               subtitle:
+                              //                   'No user found, Please login first',
+                              //               context: context);
+                              //           return;
+                              //         }
+                              //         await GlobalMethods.addToCart(
+                              //             productId: productModel.id,
+                              //             quantity: 1,
+                              //             context: context);
+                              //         await cartProvider.fetchCart();
+                              //         // cartProvider.addProductsToCart(
+                              //         //     productId: productModel.id,
+                              //         //     quantity: 1);
+                              //       },
+                              child: Icon(
+                                IconlyLight.bag2,
+                                size: 22,
+                                color: Colors.green,
                               ),
-                              HeartBTN(
-                                // productId: productModel.id,
-                                // isInWishlist: _isInWishlist,
-                                productId: " productModel.id",
-                                isInWishlist: true,
-                              )
-                            ],
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  PriceItem(
-                    // salePrice: productModel.salePrice,
-                    // price: productModel.price,
-                    salePrice: 21,
-                    price: 32,
-                    textPrice: '1',
-                    isOnSale: true,
-                  ),
-                  const SizedBox(height: 5),
-                  CustomText(
-                    // text: productModel.title,
-                    text: "234",
-                    // color: color
-                    color: const Color.fromARGB(255, 55, 61, 153),
-                    fontSize: 16,
-                    isTitle: true,
-                  ),
-                  const SizedBox(height: 5),
-                ]),
+                              // child: Icon(
+                              //   _isInCart
+                              //       ? IconlyBold.bag2
+                              //       : IconlyLight.bag2,
+                              //   size: 22,
+                              //   color: _isInCart ? Colors.green : color,
+                              // ),
+                            ),
+                            HeartBTN(
+                              // productId: productModel.id,
+                              // isInWishlist: _isInWishlist,
+                              productId: " productModel.id",
+                              isInWishlist: true,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                PriceItem(
+                  // salePrice: productModel.salePrice,
+                  // price: productModel.price,
+                  salePrice: 21,
+                  price: 32,
+                  textPrice: '1',
+                  isOnSale: true,
+                ),
+                const SizedBox(height: 5),
+                CustomText(
+                  // text: productModel.title,
+                  text: "234",
+                  // color: color
+                  color: const Color.fromARGB(255, 55, 61, 153),
+                  fontSize: 16,
+                  isTitle: true,
+                ),
+                const SizedBox(height: 5),
+              ],
+            ),
           ),
         ),
       ),

@@ -19,17 +19,8 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: CustomText(
-        text: title,
-
-        fontSize: 22,
-
-        // isTitle: true,
-      ),
-      subtitle: CustomText(
-        text: subtitle ?? "",
-        fontSize: 18,
-      ),
+      title: CustomText(text: title, fontSize: 22, isTitle: true),
+      subtitle: CustomText(text: subtitle ?? "", fontSize: 18),
       leading: Icon(icon),
       trailing: const Icon(IconlyLight.arrowRight2),
       onTap: onTap,

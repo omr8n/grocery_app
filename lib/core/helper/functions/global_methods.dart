@@ -1,13 +1,12 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:grocery_app/core/widgets/custom_text.dart';
-// import 'package:grocery_app/consts/firebase_consts.dart';
-import 'package:uuid/uuid.dart';
 
 class GlobalMethods {
-  static navigateTo({required BuildContext ctx, required String routeName}) {
+  static void navigateTo({
+    required BuildContext ctx,
+    required String routeName,
+  }) {
     Navigator.pushNamed(ctx, routeName);
   }
 
@@ -148,4 +147,30 @@ class GlobalMethods {
   //     errorDialog(subtitle: error.toString(), context: context);
   //   }
   // }
+
+  static Future<void> showAddressDialog({
+    required BuildContext context,
+    void Function(String)? onChanged,
+    TextEditingController? controller,
+    required void Function()? onPressed,
+  }) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Update'),
+          content: TextField(
+            onChanged: onChanged,
+            controller: controller,
+            //controller: _addressTextController,
+            maxLines: 5,
+            decoration: const InputDecoration(hintText: "Your address"),
+          ),
+          actions: [
+            TextButton(onPressed: onPressed, child: const Text('Update')),
+          ],
+        );
+      },
+    );
+  }
 }

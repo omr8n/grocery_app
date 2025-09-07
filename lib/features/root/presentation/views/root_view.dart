@@ -17,7 +17,7 @@ class RootView extends StatefulWidget {
 class _RootViewState extends State<RootView> {
   late PageController controller;
   int currentView = 0;
-  bool isLoadingProds = true;
+  // bool isLoadingProds = true;
 
   List<Map<String, dynamic>> screens = [
     // const HomeView(),
@@ -35,11 +35,11 @@ class _RootViewState extends State<RootView> {
     {'page': const CartView(), 'title': 'Cart View'},
     {'page': const UserView(), 'title': 'user View'},
   ];
-  void _selectedView(int index) {
-    setState(() {
-      currentView = index;
-    });
-  }
+  // void _selectedView(int index) {
+  //   setState(() {
+  //     currentView = index;
+  //   });
+  // }
 
   @override
   void initState() {

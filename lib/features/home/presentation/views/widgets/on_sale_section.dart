@@ -19,19 +19,20 @@ class OnSaleSection extends StatelessWidget {
     return Column(
       children: [
         TextButton(
-            onPressed: () {
-              GlobalMethods.navigateTo(
-                  ctx: context, routeName: OnSaleView.routeName);
-            },
-            child: const CustomText(
-              text: "View All",
-              color: Colors.blue,
-              fontSize: 15,
-              isTitle: false,
-            )),
-        const SizedBox(
-          height: 6,
+          onPressed: () {
+            GlobalMethods.navigateTo(
+              ctx: context,
+              routeName: OnSaleView.routeName,
+            );
+          },
+          child: const CustomText(
+            text: "View All",
+            color: Colors.blue,
+            fontSize: 15,
+            isTitle: false,
+          ),
         ),
+        const SizedBox(height: 6),
         Row(
           children: [
             RotatedBox(
@@ -43,34 +44,28 @@ class OnSaleSection extends StatelessWidget {
                     color: Colors.red,
                     fontSize: 22,
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  const Icon(
-                    IconlyLight.discount,
-                    color: Colors.red,
-                  ),
+                  const SizedBox(width: 5),
+                  const Icon(IconlyLight.discount, color: Colors.red),
                 ],
               ),
             ),
-            const SizedBox(
-              width: 8,
-            ),
+            const SizedBox(width: 8),
             Flexible(
               child: SizedBox(
-                height: size.height * 0.24,
+                height: size.height * 0.22,
                 child: ListView.builder(
-                    // itemCount: productsOnSale.length < 10
-                    //     ? productsOnSale.length
-                    //     : 10,
-                    itemCount: 10,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (ctx, index) {
-                      return const OnSaleItem();
-                      // return ChangeNotifierProvider.value(
-                      //     value: productsOnSale[index],
-                      //     child: const OnSaleWidget());
-                    }),
+                  // itemCount: productsOnSale.length < 10
+                  //     ? productsOnSale.length
+                  //     : 10,
+                  itemCount: 10,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (ctx, index) {
+                    return const OnSaleItem();
+                    // return ChangeNotifierProvider.value(
+                    //     value: productsOnSale[index],
+                    //     child: const OnSaleWidget());
+                  },
+                ),
               ),
             ),
           ],

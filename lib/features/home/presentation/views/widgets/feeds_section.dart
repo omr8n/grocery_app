@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/helper/functions/global_methods.dart';
 import '../../../../../core/widgets/custom_text.dart';
-import '../../../../inner_screens/feeds_screen.dart';
+import '../../../../inner_screens/product_view.dart';
 
 class FeedsSection extends StatelessWidget {
   const FeedsSection({super.key});
@@ -26,7 +26,9 @@ class FeedsSection extends StatelessWidget {
           TextButton(
             onPressed: () {
               GlobalMethods.navigateTo(
-                  ctx: context, routeName: FeedsView.routeName);
+                ctx: context,
+                routeName: ProductsView.routeName,
+              );
             },
             child: CustomText(
               text: 'Browse all',

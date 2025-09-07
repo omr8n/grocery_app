@@ -1,27 +1,34 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:grocery_app/core/providers/theme_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery_app/core/cubits/products_cubit/products_cubit.dart';
+import 'package:grocery_app/core/services/init_getit.dart';
+
 import 'package:grocery_app/features/home/presentation/views/home_view.dart';
 import 'package:provider/provider.dart';
 
+import 'core/cubits/theme_cubit/theme_cubit.dart';
+import 'core/cubits/theme_cubit/theme_state.dart';
 import 'core/helper/on_generate_routes.dart';
+import 'core/repos/products_repo/products_repo.dart';
+import 'core/services/custom_bloc_observer.dart';
 import 'core/services/shared_preferences_singleton.dart';
 import 'core/constants/theme_data.dart';
 import 'features/root/presentation/views/root_view.dart';
+// import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = CustomBlocObserver();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  Prefs.init();
-  SystemChrome.setPreferredOrientations(
-    [
-      DeviceOrientation.portraitUp,
-    ],
-  ).then(
-    (_) => runApp(
-      const MyApp(),
-    ),
-  );
+  setupLocator();
+  await Prefs.init();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -30,26 +37,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) {
-            return ThemeProvider();
-          },
-        )
+        BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
+        BlocProvider<ProductsCubit>(
+          create: (_) =>
+              ProductsCubit(getIt.get<ProductsRepo>())..getProducts(),
+        ),
       ],
-      child: Consumer<ThemeProvider>(
-        builder: (BuildContext context, themeProvider, Widget? child) {
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            //   title: 'Flutter Demo',//
-            // theme: ThemeData(
-
-            //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            //   useMaterial3: true,
-            // ),
-            theme: Styles.themeData(
-                isDarkTheme: themeProvider.getIsDarkTheme, context: context),
+            theme: state is LightThemeState
+                ? MyThemeData.lightTheme
+                : MyThemeData.darkTheme,
             initialRoute: RootView.routeName,
             onGenerateRoute: onGenerateRoute,
           );

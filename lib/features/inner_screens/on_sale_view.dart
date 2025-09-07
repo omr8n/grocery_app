@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:grocery_app/core/widgets/custom_text.dart';
 
-import 'package:provider/provider.dart';
+import 'package:grocery_app/core/widgets/custom_text.dart';
 
 import '../../core/utils/utils.dart';
 import '../../core/widgets/back_widget.dart';
@@ -17,7 +15,7 @@ class OnSaleView extends StatelessWidget {
     // final productProviders = Provider.of<ProductsProvider>(context);
     //  List<ProductModel> productsOnSale = productProviders.getOnSaleProducts;
     // final Color color = Utils(context).color;\
-    bool _isEmbty = true;
+    //  bool _isEmbty = true;
     Size size = Utils(context).getScreenSize;
     return Scaffold(
       appBar: AppBar(
@@ -30,31 +28,31 @@ class OnSaleView extends StatelessWidget {
           isTitle: true,
         ),
       ),
-      body: _isEmbty
-          ? const EmptyProdWidget(
-              text: 'No products on sale yet!,\nStay tuned',
-            )
-          : GridView.count(
-              crossAxisCount: 2,
-              padding: EdgeInsets.zero,
-              // crossAxisSpacing: 10,
-              childAspectRatio: size.width / (size.height * 0.45),
-              children: List.generate(
-                16,
-                (index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: OnSaleItem(),
-                  );
-                },
-              ),
-              // children: List.generate(productsOnSale.length, (index) {
-              //   return ChangeNotifierProvider.value(
-              //     value: productsOnSale[index],
-              //     child: const OnSaleItem(),
-              //   );
-              // }),
-            ),
+      body:
+          // _isEmbty
+          //     ?
+          // const EmptyProdWidget(
+          //     text: 'No products on sale yet!,\nStay tuned',
+          //   )
+          // :
+          GridView.count(
+            crossAxisCount: 2,
+            padding: EdgeInsets.zero,
+            // crossAxisSpacing: 10,
+            childAspectRatio: size.width / (size.height * 0.45),
+            children: List.generate(16, (index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: OnSaleItem(),
+              );
+            }),
+            // children: List.generate(productsOnSale.length, (index) {
+            //   return ChangeNotifierProvider.value(
+            //     value: productsOnSale[index],
+            //     child: const OnSaleItem(),
+            //   );
+            // }),
+          ),
     );
   }
 }

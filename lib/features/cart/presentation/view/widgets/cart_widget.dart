@@ -2,19 +2,17 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:grocery_app/core/constants/app_constants.dart';
+// import 'package:grocery_app/core/constants/app_constants.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
 import 'package:grocery_app/core/widgets/quantity_controller.dart';
 
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 import '../../../../../core/utils/utils.dart';
 import '../../../../../core/widgets/heart_btn.dart';
 
 class CartWidget extends StatefulWidget {
-  const CartWidget({
-    super.key,
-  });
+  const CartWidget({super.key});
   // final int q;
   @override
   State<CartWidget> createState() => _CartWidgetState();
@@ -83,16 +81,14 @@ class _CartWidgetState extends State<CartWidget> {
                       children: [
                         CustomText(
                           text: "gewf",
-                          // text: getCurrProduct.title,
 
+                          // text: getCurrProduct.title,
                           fontSize: 20,
                           isTitle: true,
                         ),
-                        const SizedBox(
-                          height: 16.0,
-                        ),
+                        const SizedBox(height: 16.0),
                         SizedBox(
-                          width: size.width * 0.3,
+                          width: size.width * 0.35,
                           child: Row(
                             children: [
                               QuantityController(
@@ -104,11 +100,13 @@ class _CartWidgetState extends State<CartWidget> {
                                     // cartProvider.reduceQuantityByOne(
                                     //     cartModel.productId);
                                     setState(() {
-                                      _quantityTextController.text = (int.parse(
-                                                  _quantityTextController
-                                                      .text) -
-                                              1)
-                                          .toString();
+                                      _quantityTextController.text =
+                                          (int.parse(
+                                                    _quantityTextController
+                                                        .text,
+                                                  ) -
+                                                  1)
+                                              .toString();
                                     });
                                   }
                                 },
@@ -117,49 +115,71 @@ class _CartWidgetState extends State<CartWidget> {
                               ),
                               Flexible(
                                 flex: 2,
-                                child: TextField(
-                                  controller: _quantityTextController,
-                                  keyboardType: TextInputType.number,
-                                  maxLines: 1,
-                                  decoration: const InputDecoration(
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(),
+                                child: Center(
+                                  child: TextField(
+                                    controller: _quantityTextController,
+                                    keyboardType: TextInputType.number,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.center,
+                                    decoration: const InputDecoration(
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(),
+                                      ),
                                     ),
-                                  ),
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                      RegExp('[0-9]'),
-                                    ),
-                                  ],
-                                  onChanged: (value) {
-                                    setState(() {
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                        RegExp('[0-9]'),
+                                      ),
+                                    ],
+                                    // onChanged: (value) {
+                                    //   setState(() {
+                                    //     if (value.isEmpty) {
+                                    //       _quantityTextController.text = '1';
+                                    //     } else {
+                                    //       return;
+                                    //     }
+                                    //   });
+                                    // },
+                                    onChanged: (value) {
                                       if (value.isEmpty) {
                                         _quantityTextController.text = '1';
-                                      } else {
-                                        return;
+                                        _quantityTextController.selection =
+                                            TextSelection.fromPosition(
+                                              const TextPosition(offset: 1),
+                                            );
                                       }
-                                    });
-                                  },
+                                      setState(() {});
+                                    },
+                                  ),
                                 ),
                               ),
                               QuantityController(
                                 padding: 5,
+                                // onTap: () {
+                                //   // cartProvider.increaseQuantityByOne(
+                                //   //     cartModel.productId);
+                                //   setState(() {
+                                //     _quantityTextController.text = (
+                                //       int.parse(_quantityTextController.text) +
+                                //           1,
+                                //     ).toString();
+                                //   });
+                                // },// للزيادة
                                 onTap: () {
-                                  // cartProvider.increaseQuantityByOne(
-                                  //     cartModel.productId);
-                                  setState(
-                                    () {
-                                      _quantityTextController.text = (
-                                        int.parse(
-                                                _quantityTextController.text) +
-                                            1,
-                                      ).toString();
-                                    },
-                                  );
+                                  int currentQuantity =
+                                      int.tryParse(
+                                        _quantityTextController.text,
+                                      ) ??
+                                      1;
+                                  currentQuantity++;
+                                  _quantityTextController.text = currentQuantity
+                                      .toString();
+                                  setState(() {});
                                 },
+
                                 color: Colors.green,
                                 icon: CupertinoIcons.plus,
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -184,9 +204,7 @@ class _CartWidgetState extends State<CartWidget> {
                               size: 20,
                             ),
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
+                          const SizedBox(height: 5),
                           HeartBTN(
                             productId: "getCurrProduct.id",
                             isInWishlist: true,
@@ -197,13 +215,11 @@ class _CartWidgetState extends State<CartWidget> {
                             text: r"$ 21",
                             fontSize: 18,
                             maxLines: 1,
-                          )
+                          ),
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      width: 5,
-                    ),
+                    const SizedBox(width: 5),
                   ],
                 ),
               ),

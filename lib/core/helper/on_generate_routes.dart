@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../Features/root/presentation/views/root_view.dart';
 import '../../features/inner_screens/auth/forget_pass.dart';
-import '../../features/inner_screens/auth/login.dart';
+
 import '../../features/inner_screens/auth/register_view.dart';
-import '../../features/inner_screens/feeds_screen.dart';
+import '../../features/inner_screens/auth/signin_view.dart';
+import '../../features/inner_screens/product_view.dart';
+import '../../features/inner_screens/fetch_screen.dart';
 import '../../features/inner_screens/on_sale_view.dart';
 import '../../features/inner_screens/orders/orders_view.dart';
 import '../../features/inner_screens/product_details_view.dart';
-import '../../features/inner_screens/viewed_recently/viewed_recently.dart';
 
+import '../../features/inner_screens/viewed_recently/viewed_recently_view.dart';
 import '../../features/inner_screens/wishlist/wishlist_view.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -20,28 +22,33 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
 
     case RootView.routeName:
       return MaterialPageRoute(builder: (context) => const RootView());
+    case FetchScreen.routeName:
+      return MaterialPageRoute(builder: (context) => const FetchScreen());
 
     case OnSaleView.routeName:
       return MaterialPageRoute(builder: (context) => const OnSaleView());
-    case FeedsView.routeName:
-      return MaterialPageRoute(builder: (context) => const FeedsView());
+    case ProductsView.routeName:
+      return MaterialPageRoute(builder: (context) => const ProductsView());
     case ProductDetailsView.routeName:
       return MaterialPageRoute(
-          builder: (context) => const ProductDetailsView());
+        builder: (context) => const ProductDetailsView(),
+      );
     case WishlistView.routeName:
       return MaterialPageRoute(builder: (context) => const WishlistView());
     case OrdersView.routeName:
       return MaterialPageRoute(builder: (context) => const OrdersView());
     case ViewedRecentlyView.routeName:
       return MaterialPageRoute(
-          builder: (context) => const ViewedRecentlyView());
+        builder: (context) => const ViewedRecentlyView(),
+      );
     case RegisterView.routeName:
       return MaterialPageRoute(builder: (context) => const RegisterView());
-    case LoginView.routeName:
-      return MaterialPageRoute(builder: (context) => const LoginView());
+    case SigninView.routeName:
+      return MaterialPageRoute(builder: (context) => const SigninView());
     case ForgetPasswordView.routeName:
       return MaterialPageRoute(
-          builder: (context) => const ForgetPasswordView());
+        builder: (context) => const ForgetPasswordView(),
+      );
     // case WishlistView.routeName:
     //   return MaterialPageRoute(builder: (context) => const WishlistView());
     // case ViewedRecentlyVeiw.routeName:

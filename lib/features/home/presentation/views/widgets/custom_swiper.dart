@@ -17,18 +17,17 @@ class CustomSwiper extends StatelessWidget {
       height: size.height * 0.33,
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return Image.asset(
-            AppConstants.offerImages[index],
-            fit: BoxFit.fill,
-          );
+          return Image.asset(AppConstants.offerImages[index], fit: BoxFit.fill);
         },
-
         autoplay: true,
         itemCount: AppConstants.offerImages.length,
         pagination: const SwiperPagination(
-            alignment: Alignment.bottomCenter,
-            builder: DotSwiperPaginationBuilder(
-                color: Colors.white, activeColor: Colors.red)),
+          alignment: Alignment.bottomCenter,
+          builder: DotSwiperPaginationBuilder(
+            color: Colors.white,
+            activeColor: Colors.red,
+          ),
+        ),
         // control: const SwiperControl(color: Colors.black),
       ),
     );

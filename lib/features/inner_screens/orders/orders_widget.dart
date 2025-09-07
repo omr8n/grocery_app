@@ -3,19 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
 import 'package:grocery_app/features/inner_screens/product_details_view.dart';
 
-import 'package:provider/provider.dart';
-
 import '../../../core/helper/functions/global_methods.dart';
 import '../../../core/utils/utils.dart';
 
-class OrderWidget extends StatefulWidget {
-  const OrderWidget({super.key});
+class OrderItem extends StatefulWidget {
+  const OrderItem({super.key});
 
   @override
-  State<OrderWidget> createState() => _OrderWidgetState();
+  State<OrderItem> createState() => _OrderItemState();
 }
 
-class _OrderWidgetState extends State<OrderWidget> {
+class _OrderItemState extends State<OrderItem> {
   late String orderDateToShow;
 
   @override
@@ -38,7 +36,9 @@ class _OrderWidgetState extends State<OrderWidget> {
       //     Text('Paid: \$${double.parse(ordersModel.price).toStringAsFixed(2)}'),
       onTap: () {
         GlobalMethods.navigateTo(
-            ctx: context, routeName: ProductDetailsView.routeName);
+          ctx: context,
+          routeName: ProductDetailsView.routeName,
+        );
       },
       leading: FancyShimmerImage(
         width: size.width * 0.2,
@@ -48,14 +48,12 @@ class _OrderWidgetState extends State<OrderWidget> {
         boxFit: BoxFit.fill,
       ),
       title: CustomText(
-          // text: '${getCurrProduct.title}  x${ordersModel.quantity}',
-          text: "fwe \$63",
-          fontSize: 18),
-      subtitle: Text('Paid: \$32'),
-      trailing: CustomText(
-        text: "orderDateToShow",
+        // text: '${getCurrProduct.title}  x${ordersModel.quantity}',
+        text: "fwe \$63",
         fontSize: 18,
       ),
+      subtitle: Text('Paid: \$32'),
+      trailing: CustomText(text: "orderDateToShow", fontSize: 18),
     );
   }
 }

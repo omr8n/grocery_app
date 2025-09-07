@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:provider/provider.dart';
-
-import '../../../../../core/widgets/custom_text.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar(
-      {super.key, required this.onDestinationSelected, this.selectedIndex = 0});
+  const CustomBottomNavigationBar({
+    super.key,
+    required this.onDestinationSelected,
+    this.selectedIndex = 0,
+  });
   final int selectedIndex;
   final void Function(int index)? onDestinationSelected;
   @override
@@ -27,7 +27,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-              selectedIndex == 1 ? IconlyBold.category : IconlyLight.category),
+            selectedIndex == 1 ? IconlyBold.category : IconlyLight.category,
+          ),
           label: "Categories",
         ),
         BottomNavigationBarItem(

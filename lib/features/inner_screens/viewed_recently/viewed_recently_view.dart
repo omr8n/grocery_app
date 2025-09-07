@@ -44,40 +44,39 @@ class _ViewedRecentlyViewState extends State<ViewedRecentlyView> {
           IconButton(
             onPressed: () {
               GlobalMethods.warningDialog(
-                  title: 'Empty your history?',
-                  subtitle: 'Are you sure?',
-                  fct: () {},
-                  context: context);
+                title: 'Empty your history?',
+                subtitle: 'Are you sure?',
+                fct: () {},
+                context: context,
+              );
             },
-            icon: Icon(
-              IconlyBroken.delete,
-            ),
-          )
+            icon: Icon(IconlyBroken.delete),
+          ),
         ],
         leading: const BackWidget(),
         automaticallyImplyLeading: false,
         elevation: 0,
         centerTitle: true,
-        title: CustomText(
-          text: 'History',
-          fontSize: 24.0,
-        ),
-        backgroundColor:
-            Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
+        title: CustomText(text: 'History', fontSize: 24.0),
+        backgroundColor: Theme.of(
+          context,
+        ).scaffoldBackgroundColor.withOpacity(0.9),
       ),
       body: ListView.builder(
-          // itemCount: viewedProdItemsList.length,
-          itemCount: 12,
-          itemBuilder: (ctx, index) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
-              child: ViewedRecentlyWidget(),
-              // child: ChangeNotifierProvider.value(
-              //     value: viewedProdItemsList[index],
-              //     child: ViewedRecentlyWidget()),
-            );
-          }),
+        // itemCount: viewedProdItemsList.length,
+        itemCount: 12,
+        itemBuilder: (ctx, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+            child: ViewedRecentlyItem(),
+            // child: ChangeNotifierProvider.value(
+            //     value: viewedProdItemsList[index],
+            //     child: ViewedRecentlyWidget()),
+          );
+        },
+      ),
     );
   }
 }
+
 // }

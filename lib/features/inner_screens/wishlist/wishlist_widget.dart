@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
 
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 import '../../../core/utils/utils.dart';
 import '../../../core/widgets/heart_btn.dart';
@@ -13,8 +13,8 @@ import '../product_details_view.dart';
 // import '../../providers/wishlist_provider.dart';
 // import '../../services/utils.dart';
 
-class WishlistWidget extends StatelessWidget {
-  const WishlistWidget({super.key});
+class WishlistItem extends StatelessWidget {
+  const WishlistItem({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +36,7 @@ class WishlistWidget extends StatelessWidget {
         onTap: () {
           // Navigator.pushNamed(context, ProductDetails.routeName,
           //     arguments: wishlistModel.productId);
-          Navigator.pushNamed(
-            context,
-            ProductDetailsView.routeName,
-          );
+          Navigator.pushNamed(context, ProductDetailsView.routeName);
         },
         child: Container(
           height: size.height * 0.20,
@@ -76,14 +73,9 @@ class WishlistWidget extends StatelessWidget {
                         children: [
                           IconButton(
                             onPressed: () {},
-                            icon: Icon(
-                              IconlyLight.bag2,
-                            ),
+                            icon: Icon(IconlyLight.bag2),
                           ),
-                          HeartBTN(
-                            productId: "fwef",
-                            isInWishlist: true,
-                          )
+                          HeartBTN(productId: "fwef", isInWishlist: true),
                         ],
                       ),
                     ),
@@ -95,9 +87,7 @@ class WishlistWidget extends StatelessWidget {
                       maxLines: 2,
                       isTitle: true,
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    const SizedBox(height: 5),
                     CustomText(
                       // text: '\$${usedPrice.toStringAsFixed(2)}',
                       text: r"$54",
@@ -108,7 +98,7 @@ class WishlistWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

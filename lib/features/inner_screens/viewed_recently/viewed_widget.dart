@@ -6,14 +6,14 @@ import 'package:grocery_app/core/widgets/custom_text.dart';
 
 import '../../../core/utils/utils.dart';
 
-class ViewedRecentlyWidget extends StatefulWidget {
-  const ViewedRecentlyWidget({super.key});
+class ViewedRecentlyItem extends StatefulWidget {
+  const ViewedRecentlyItem({super.key});
 
   @override
-  State<ViewedRecentlyWidget> createState() => _ViewedWidgetState();
+  State<ViewedRecentlyItem> createState() => _ViewedWidgetState();
 }
 
-class _ViewedWidgetState extends State<ViewedRecentlyWidget> {
+class _ViewedWidgetState extends State<ViewedRecentlyItem> {
   @override
   Widget build(BuildContext context) {
     //  final productProvider = Provider.of<ProductsProvider>(context);
@@ -47,21 +47,17 @@ class _ViewedWidgetState extends State<ViewedRecentlyWidget> {
               height: size.width * 0.27,
               width: size.width * 0.25,
             ),
-            const SizedBox(
-              width: 12,
-            ),
+            const SizedBox(width: 12),
             Column(
               children: [
                 CustomText(
-//text: getCurrProduct.title,
+                  //text: getCurrProduct.title,
                   text: "few",
 
                   fontSize: 24,
                   isTitle: true,
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
+                const SizedBox(height: 12),
                 CustomText(
                   //  text: '\$${usedPrice.toStringAsFixed(2)}',
                   text: "\$543",
@@ -78,41 +74,38 @@ class _ViewedWidgetState extends State<ViewedRecentlyWidget> {
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.green,
                 child: InkWell(
-                    borderRadius: BorderRadius.circular(12),
-                    // onTap: _isInCart
-                    //     ? null
-                    //     : () async {
-                    //         final User? user = authInstance.currentUser;
+                  borderRadius: BorderRadius.circular(12),
+                  // onTap: _isInCart
+                  //     ? null
+                  //     : () async {
+                  //         final User? user = authInstance.currentUser;
 
-                    //         if (user == null) {
-                    //           GlobalMethods.errorDialog(
-                    //               subtitle: 'No user found, Please login first',
-                    //               context: context);
-                    //           return;
-                    //         }
-                    //         await GlobalMethods.addToCart(
-                    //             productId: getCurrProduct.id,
-                    //             quantity: 1,
-                    //             context: context);
-                    //         await cartProvider.fetchCart();
-                    //         // cartProvider.addProductsToCart(
-                    //         //   productId: getCurrProduct.id,
-                    //         //   quantity: 1,
-                    //         // );
-                    //       },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        IconlyBold.plus,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      // child: Icon(
-                      //   _isInCart ? Icons.check : IconlyBold.plus,
-                      //   color: Colors.white,
-                      //   size: 20,
-                      // ),
-                    )),
+                  //         if (user == null) {
+                  //           GlobalMethods.errorDialog(
+                  //               subtitle: 'No user found, Please login first',
+                  //               context: context);
+                  //           return;
+                  //         }
+                  //         await GlobalMethods.addToCart(
+                  //             productId: getCurrProduct.id,
+                  //             quantity: 1,
+                  //             context: context);
+                  //         await cartProvider.fetchCart();
+                  //         // cartProvider.addProductsToCart(
+                  //         //   productId: getCurrProduct.id,
+                  //         //   quantity: 1,
+                  //         // );
+                  //       },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(IconlyBold.plus, color: Colors.white, size: 20),
+                    // child: Icon(
+                    //   _isInCart ? Icons.check : IconlyBold.plus,
+                    //   color: Colors.white,
+                    //   size: 20,
+                    // ),
+                  ),
+                ),
               ),
             ),
           ],

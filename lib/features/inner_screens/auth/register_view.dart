@@ -11,7 +11,7 @@ import '../../../core/helper/functions/global_methods.dart';
 import '../../../core/widgets/auth_button.dart';
 import '../../../core/widgets/loading_manager.dart';
 import 'forget_pass.dart';
-import 'login.dart';
+import 'signin_view.dart';
 
 class RegisterView extends StatefulWidget {
   static const routeName = '/RegisterScreen';
@@ -116,9 +116,7 @@ class _RegisterViewState extends State<RegisterView> {
 
               // control: const SwiperControl(),
             ),
-            Container(
-              color: Colors.black.withOpacity(0.7),
-            ),
+            Container(color: Colors.black.withOpacity(0.7)),
             SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -126,9 +124,7 @@ class _RegisterViewState extends State<RegisterView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  const SizedBox(
-                    height: 60.0,
-                  ),
+                  const SizedBox(height: 60.0),
                   InkWell(
                     borderRadius: BorderRadius.circular(12),
                     onTap: () => Navigator.canPop(context)
@@ -140,35 +136,30 @@ class _RegisterViewState extends State<RegisterView> {
                       size: 24,
                     ),
                   ),
-                  const SizedBox(
-                    height: 40.0,
-                  ),
+                  const SizedBox(height: 40.0),
                   CustomText(
                     text: 'Welcome',
                     color: Colors.white,
                     fontSize: 30,
                     isTitle: true,
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
+                  const SizedBox(height: 8),
                   CustomText(
                     text: "Sign up to continue",
                     color: Colors.white,
                     fontSize: 18,
                     isTitle: false,
                   ),
-                  const SizedBox(
-                    height: 30.0,
-                  ),
+                  const SizedBox(height: 30.0),
                   Form(
                     key: _formKey,
                     child: Column(
                       children: [
                         TextFormField(
                           textInputAction: TextInputAction.next,
-                          onEditingComplete: () => FocusScope.of(context)
-                              .requestFocus(_emailFocusNode),
+                          onEditingComplete: () => FocusScope.of(
+                            context,
+                          ).requestFocus(_emailFocusNode),
                           keyboardType: TextInputType.name,
                           controller: _fullNameController,
                           validator: (value) {
@@ -193,14 +184,13 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                         TextFormField(
                           focusNode: _emailFocusNode,
                           textInputAction: TextInputAction.next,
-                          onEditingComplete: () => FocusScope.of(context)
-                              .requestFocus(_passFocusNode),
+                          onEditingComplete: () => FocusScope.of(
+                            context,
+                          ).requestFocus(_passFocusNode),
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailTextController,
                           validator: (value) {
@@ -225,9 +215,7 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                         //Password
                         TextFormField(
                           focusNode: _passFocusNode,
@@ -242,8 +230,9 @@ class _RegisterViewState extends State<RegisterView> {
                             }
                           },
                           style: const TextStyle(color: Colors.white),
-                          onEditingComplete: () => FocusScope.of(context)
-                              .requestFocus(_addressFocusNode),
+                          onEditingComplete: () => FocusScope.of(
+                            context,
+                          ).requestFocus(_addressFocusNode),
                           decoration: InputDecoration(
                             suffixIcon: GestureDetector(
                               onTap: () {
@@ -271,9 +260,7 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
 
                         TextFormField(
                           focusNode: _addressFocusNode,
@@ -307,25 +294,25 @@ class _RegisterViewState extends State<RegisterView> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 5.0,
-                  ),
+                  const SizedBox(height: 5.0),
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {
                         GlobalMethods.navigateTo(
-                            ctx: context,
-                            routeName: ForgetPasswordView.routeName);
+                          ctx: context,
+                          routeName: ForgetPasswordView.routeName,
+                        );
                       },
                       child: const Text(
                         'Forget password?',
                         maxLines: 1,
                         style: TextStyle(
-                            color: Colors.lightBlue,
-                            fontSize: 18,
-                            decoration: TextDecoration.underline,
-                            fontStyle: FontStyle.italic),
+                          color: Colors.lightBlue,
+                          fontSize: 18,
+                          decoration: TextDecoration.underline,
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
                     ),
                   ),
@@ -335,25 +322,28 @@ class _RegisterViewState extends State<RegisterView> {
                       _submitFormOnRegister();
                     },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   RichText(
                     text: TextSpan(
-                        text: 'Already a user?',
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 18),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: ' Sign in',
-                              style: const TextStyle(
-                                  color: Colors.lightBlue, fontSize: 18),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushReplacementNamed(
-                                      context, LoginView.routeName);
-                                }),
-                        ]),
+                      text: 'Already a user?',
+                      style: const TextStyle(color: Colors.white, fontSize: 18),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: ' Sign in',
+                          style: const TextStyle(
+                            color: Colors.lightBlue,
+                            fontSize: 18,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                SigninView.routeName,
+                              );
+                            },
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
