@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/features/root/presentation/views/widgets/custom_bottom_navigation_bar_consumer.dart';
 
 import '../../../cart/presentation/view/cart_view.dart';
 import '../../../categories/presentation/views/categories_view.dart';
 import '../../../home/presentation/views/home_view.dart';
 import '../../../user/presentation/views/user_view.dart';
 import 'widgets/custom_bottom_navigation_bar.dart';
+// import 'widgets/custom_bottom_navigation_bar_consumer.dart';
 
 class RootView extends StatefulWidget {
   static const routeName = '/';
@@ -51,32 +53,64 @@ class _RootViewState extends State<RootView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[currentView]["page"],
-
-      // bottomNavigationBar: CustomBottomNavigationBar(
-      //   selectedIndex: currentView,
-      //   onDestinationSelected: (index) {
-      //     setState(() {
-      //       currentView = index.round();
-      //     });
-      //     // controller.animateToPage(currentView,
-      //     //     duration: const Duration(milliseconds: 500),
-      //     //     curve: Curves.easeInOut);
-      //     controller.jumpToPage(currentView);
-      //   },
-      // ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: currentView,
-        onDestinationSelected: (index) {
+      body: PageView(
+        controller: controller,
+        onPageChanged: (index) {
           setState(() {
-            currentView = index.round();
+            currentView = index;
           });
-          // controller.animateToPage(currentView,
-          //     duration: const Duration(milliseconds: 500),
-          //     curve: Curves.easeInOut);
-          //  controller.jumpToPage(currentView);
         },
+        children: screens.map((screen) => screen["page"] as Widget).toList(),
+      ),
+      bottomNavigationBar: CustomBottomNavigationBarConsumer(
+        child: CustomBottomNavigationBar(
+          selectedIndex: currentView,
+          onDestinationSelected: (index) {
+            setState(() {
+              currentView = index;
+            });
+            controller.animateToPage(
+              currentView,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          },
+        ),
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: screens[currentView]["page"],
+
+  //     // bottomNavigationBar: CustomBottomNavigationBar(
+  //     //   selectedIndex: currentView,
+  //     //   onDestinationSelected: (index) {
+  //     //     setState(() {
+  //     //       currentView = index.round();
+  //     //     });
+  //     //     // controller.animateToPage(currentView,
+  //     //     //     duration: const Duration(milliseconds: 500),
+  //     //     //     curve: Curves.easeInOut);
+  //     //     controller.jumpToPage(currentView);
+  //     //   },
+  //     // ),
+  //     bottomNavigationBar: CustomBottomNavigationBarConsumer(
+  //       child: CustomBottomNavigationBar(
+  //         selectedIndex: currentView,
+  //         onDestinationSelected: (index) {
+  //           setState(() {
+  //             currentView = index.round();
+  //           });
+  //           // controller.animateToPage(currentView,
+  //           //     duration: const Duration(milliseconds: 500),
+  //           //     curve: Curves.easeInOut);
+  //           //  controller.jumpToPage(currentView);
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
 }

@@ -3,7 +3,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
+// import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/core/widgets/back_widget.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
 import 'package:grocery_app/core/widgets/quantity_controller.dart';
@@ -19,7 +19,7 @@ class ProductDetailsView extends StatefulWidget {
   const ProductDetailsView({super.key});
 
   @override
-  _ProductDetailsViewState createState() => _ProductDetailsViewState();
+  State<ProductDetailsView> createState() => _ProductDetailsViewState();
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {

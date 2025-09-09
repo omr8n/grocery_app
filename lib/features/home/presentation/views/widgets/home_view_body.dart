@@ -84,13 +84,14 @@
 //     );
 //   }
 // }
+
 import 'package:flutter/material.dart';
 
 import 'custom_swiper.dart';
 
 import 'feeds_section.dart';
 import 'on_sale_section.dart';
-import 'products_grid_view.dart';
+import 'products_grid_view_builder.dart';
 
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key});
@@ -111,7 +112,7 @@ class HomeViewBody extends StatelessWidget {
         ),
 
         /// Grid المنتجات
-        ProductsGridView(),
+        ProductGridViewBlocBuilder(),
       ],
     );
   }

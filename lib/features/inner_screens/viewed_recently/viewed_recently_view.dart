@@ -5,13 +5,13 @@ import 'package:grocery_app/core/widgets/custom_text.dart';
 // import 'package:grocery_app/providers/viewed_prod_provider.dart';
 // import 'package:grocery_app/widgets/back_widget.dart';
 // import 'package:grocery_app/widgets/empty_screen.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 // import '../../services/global_methods.dart';
 // import '../../services/utils.dart';
 // import '../../widgets/text_widget.dart';
 import '../../../core/helper/functions/global_methods.dart';
-import '../../../core/widgets/empty_screen.dart';
+// import '../../../core/widgets/empty_screen.dart';
 import 'viewed_widget.dart';
 
 class ViewedRecentlyView extends StatefulWidget {

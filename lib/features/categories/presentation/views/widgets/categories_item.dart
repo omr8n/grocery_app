@@ -58,20 +58,21 @@
 //     );
 //   }
 // }
+
 import 'package:flutter/material.dart';
+import 'package:grocery_app/core/models/category_model.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
 import '../../../../../core/utils/utils.dart';
+import '../../../../inner_screens/product_view.dart';
 
 class CategoriesItem extends StatelessWidget {
   const CategoriesItem({
     super.key,
-    required this.catText,
-    required this.imgPath,
     required this.color,
+    required this.categoryModel,
   });
 
-  final String catText;
-  final String imgPath;
+  final CategoryModel categoryModel;
   final Color color;
 
   @override
@@ -88,7 +89,11 @@ class CategoriesItem extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: () {
-          // Navigator.pushNamed(context, CategoryScreen.routeName, arguments: catText);
+          Navigator.pushNamed(
+            context,
+            ProductsView.routeName,
+            arguments: categoryModel.name,
+          );
         },
         child: Container(
           decoration: BoxDecoration(
@@ -103,14 +108,14 @@ class CategoriesItem extends StatelessWidget {
                   top: Radius.circular(16),
                 ),
                 child: Image.asset(
-                  imgPath,
+                  categoryModel.image,
                   height: imgSize,
                   width: imgSize,
                   fit: BoxFit.cover,
                 ),
               ),
               const SizedBox(height: 8),
-              CustomText(text: catText, fontSize: 20, isTitle: true),
+              CustomText(text: categoryModel.name, fontSize: 20, isTitle: true),
             ],
           ),
         ),

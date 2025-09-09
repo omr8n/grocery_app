@@ -2,8 +2,10 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:grocery_app/core/constants/app_constants.dart';
+// import 'package:grocery_app/core/constants/app_constants.dart';
+import 'package:grocery_app/core/entites/product_entity.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
+import 'package:grocery_app/features/home/presentation/views/widgets/add_to_cart_button.dart';
 import 'package:grocery_app/features/home/presentation/views/widgets/price_item.dart';
 import 'package:grocery_app/features/inner_screens/product_details_view.dart';
 
@@ -12,8 +14,8 @@ import '../../../../../core/utils/utils.dart';
 import '../../../../../core/widgets/heart_btn.dart';
 
 class ProductItem extends StatefulWidget {
-  const ProductItem({super.key});
-
+  const ProductItem({super.key, required this.product});
+  final ProductEntity product;
   @override
   State<ProductItem> createState() => _ProductItemState();
 }
@@ -61,7 +63,7 @@ class _ProductItemState extends State<ProductItem> {
             children: [
               FancyShimmerImage(
                 //   imageUrl: productModel.imageUrl,
-                imageUrl: AppConstants.productImageUrl,
+                imageUrl: widget.product.imageUrl!,
                 height: size.width * 0.21,
                 width: size.width * 0.2,
                 boxFit: BoxFit.fill,
@@ -71,20 +73,25 @@ class _ProductItemState extends State<ProductItem> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    FittedBox(
-                      child: CustomText(
-                        // text: productModel.title,
-                        text: "shose",
-
-                        //   color: color,
-                        maxLines: 1,
-                        fontSize: 18,
-                        isTitle: true,
+                    Flexible(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: CustomText(
+                          // text: productModel.title,
+                          // text: "shose",
+                          text: widget.product.name,
+                          overflow: TextOverflow.ellipsis,
+                          //   color: color,
+                          maxLines: 1,
+                          fontSize: 18,
+                          isTitle: true,
+                        ),
                       ),
                     ),
                     Flexible(
                       child: HeartBTN(
-                        productId: "productModel",
+                        productId: widget.product.productId,
+                        // productId: "productModel",
                         isInWishlist: true,
                       ),
                     ),
@@ -100,49 +107,105 @@ class _ProductItemState extends State<ProductItem> {
                       flex: 3,
                       child: FittedBox(
                         child: PriceItem(
-                          salePrice: 4,
-                          price: 6,
+                          salePrice: widget.product.salePrice,
+                          price: widget.product.price,
+                          // salePrice: 4,
+                          // price: 6,
                           textPrice: _quantityTextController.text,
-                          isOnSale: true,
+                          isOnSale: widget.product.isOnSale,
                         ),
                       ),
                     ),
 
+                    // Flexible(
+                    //   flex: 4,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.end,
+                    //     children: [
+                    //       FittedBox(
+                    //         fit: BoxFit.scaleDown,
+                    //         child: CustomText(
+                    //           text: widget.product.isPiece ? 'Piece' : 'kg',
+                    //           fontSize: 20,
+                    //           isTitle: true,
+                    //           overflow: TextOverflow.ellipsis,
+                    //         ),
+                    //       ),
+                    //       const SizedBox(width: 5),
+                    //       Container(
+                    //         color: Theme.of(context).cardColor,
+                    //         width: 50,
+
+                    //         child: Center(
+                    //           child: TextFormField(
+                    //             controller: _quantityTextController,
+                    //             textAlign: TextAlign.center,
+                    //             decoration: const InputDecoration(
+                    //               isDense: true,
+                    //               contentPadding: EdgeInsets.symmetric(
+                    //                 vertical: 6,
+                    //                 horizontal: 4,
+                    //               ),
+                    //               border: InputBorder.none,
+                    //             ),
+                    //             style: const TextStyle(fontSize: 16),
+                    //             keyboardType: TextInputType.number,
+                    //             maxLines: 1,
+                    //             inputFormatters: [
+                    //               FilteringTextInputFormatter.allow(
+                    //                 RegExp('[0-9.]'),
+                    //               ),
+                    //             ],
+                    //             onChanged: (value) {
+                    //               setState(() {});
+                    //             },
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Flexible(
                       flex: 4,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          CustomText(text: '1KG', fontSize: 20, isTitle: true),
-                          const SizedBox(width: 5),
-                          Container(
-                            color: Theme.of(context).cardColor,
-                            width: 50,
-
-                            child: Center(
-                              child: TextFormField(
-                                controller: _quantityTextController,
-                                textAlign: TextAlign.center,
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    vertical: 6,
-                                    horizontal: 4,
-                                  ),
-                                  border: InputBorder.none,
-                                ),
-                                style: const TextStyle(fontSize: 16),
-                                keyboardType: TextInputType.number,
+                          Expanded(
+                            child: FittedBox(
+                              alignment: Alignment.centerRight,
+                              fit: BoxFit.scaleDown,
+                              child: CustomText(
+                                text: widget.product.isPiece ? 'Piece' : 'kg',
+                                fontSize: 20,
+                                isTitle: true,
                                 maxLines: 1,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                    RegExp('[0-9.]'),
-                                  ),
-                                ],
-                                onChanged: (value) {
-                                  setState(() {});
-                                },
                               ),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          SizedBox(
+                            width: 50,
+                            child: TextFormField(
+                              controller: _quantityTextController,
+                              textAlign: TextAlign.center,
+                              decoration: const InputDecoration(
+                                isDense: true,
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical: 6,
+                                  horizontal: 4,
+                                ),
+                                border: InputBorder.none,
+                              ),
+                              style: const TextStyle(fontSize: 16),
+                              keyboardType: TextInputType.number,
+                              maxLines: 1,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp('[0-9.]'),
+                                ),
+                              ],
+                              onChanged: (value) {
+                                setState(() {});
+                              },
                             ),
                           ),
                         ],
@@ -153,30 +216,8 @@ class _ProductItemState extends State<ProductItem> {
               ),
               Spacer(),
               // زر Add to cart
-              SizedBox(
-                height: 45,
-                width: double.infinity,
-                child: TextButton(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all(
-                      Theme.of(context).cardColor,
-                    ),
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(12.0),
-                          bottomRight: Radius.circular(12.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    "Add to cart",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
+              AddToCartButton(productEntity: widget.product, ),
+              // AddToCartButton(productEntity:),
             ],
           ),
         ),

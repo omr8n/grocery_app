@@ -8,6 +8,7 @@ import 'package:grocery_app/features/cart/presentation/view/widgets/cart_widget.
 import 'package:grocery_app/features/cart/presentation/view/widgets/custom_chekout.dart';
 
 import '../../../../core/helper/functions/global_methods.dart';
+import 'widgets/cart_view_body.dart';
 // import '../../../../core/utils/utils.dart';
 // import '../../../../core/widgets/empty_screen.dart';
 
@@ -61,25 +62,7 @@ class CartView extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          CustomChekout(),
-          Expanded(
-            child: ListView.builder(
-              //itemCount: cartItemsList.length,
-              itemCount: 32,
-              itemBuilder: (ctx, index) {
-                // return ChangeNotifierProvider.value(
-                //     value: cartItemsList[index],
-                //     child: CartWidget(
-                //       q: cartItemsList[index].quantity,
-                //     ));
-                return CartWidget();
-              },
-            ),
-          ),
-        ],
-      ),
+      body: CartViewBody(),
     );
   }
 }

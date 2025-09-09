@@ -38,6 +38,7 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:grocery_app/core/constants/app_constants.dart';
+import '../../../../core/models/category_model.dart';
 import '../../../../core/widgets/custom_text.dart';
 import 'widgets/categories_item.dart';
 
@@ -46,7 +47,7 @@ class CategoriesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final catInfo = AppConstants.catInfo;
+    final catInfo = AppConstants.categoriesList;
     final gridColors = AppConstants.gridColors;
 
     return Scaffold(
@@ -69,9 +70,10 @@ class CategoriesView extends StatelessWidget {
             childAspectRatio: 240 / 250,
           ),
           itemBuilder: (context, index) {
+            final CategoryModel category = AppConstants.categoriesList[index];
             return CategoriesItem(
-              catText: catInfo[index]['catText'],
-              imgPath: catInfo[index]['imgPath'],
+              categoryModel: category,
+              // imgPath: catInfo[index]['imgPath'],
               color: gridColors[index % gridColors.length], // حماية من الخطأ
             );
           },

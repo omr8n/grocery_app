@@ -12,6 +12,9 @@ import '../../../../core/cubits/theme_cubit/theme_cubit.dart';
 import '../../../../core/cubits/theme_cubit/theme_state.dart';
 import '../../../../core/helper/functions/global_methods.dart';
 
+import '../../../../core/helper/get_user.dart';
+// import '../../../../core/services/firebase_auth_service.dart';
+import '../../../../core/services/firebase_auth_service.dart';
 import '../../../../core/widgets/custom_text.dart';
 
 import '../../../inner_screens/auth/signin_view.dart';
@@ -27,24 +30,33 @@ class UserView extends StatefulWidget {
   State<UserView> createState() => _UserViewState();
 }
 
-class _UserViewState extends State<UserView> {
-  final TextEditingController _addressTextController = TextEditingController(
-    text: "",
-  );
+class _UserViewState extends State<UserView>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+  //  late FirebaseAuthService firebaseAuthService;
+
+  late TextEditingController _addressTextController;
+
+  @override
+  void initState() {
+    _addressTextController = TextEditingController(text: "");
+    //    firebaseAuthService = FirebaseAuthService();
+
+    getUserData();
+    super.initState();
+  }
+
   @override
   void dispose() {
     _addressTextController.dispose();
     super.dispose();
   }
 
-  @override
-  void initState() {
-    getUserData();
-    super.initState();
-  }
+  final isLoggedIn = FirebaseAuthService.isLoggedIn();
+  String get userName => isLoggedIn ? getUser().name : "Guest User";
 
-  String? _email;
-  String? _name;
+  String get userEmail => isLoggedIn ? getUser().email : "guest@example.com";
   String? address;
   //  bool _isLoading = false;
   Future<void> getUserData() async {
@@ -84,6 +96,7 @@ class _UserViewState extends State<UserView> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     // final ThemeProvider themeProvider = Provider.of<ThemeProvider>(
     //   context,
     //   listen: true,
@@ -106,7 +119,7 @@ class _UserViewState extends State<UserView> {
                 ),
                 children: <TextSpan>[
                   TextSpan(
-                    text: _name ?? 'user',
+                    text: userName,
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
@@ -118,7 +131,7 @@ class _UserViewState extends State<UserView> {
             ),
             const SizedBox(height: 5),
             CustomText(
-              text: _email == null ? 'Email' : _email!,
+              text: userEmail,
 
               fontSize: 18,
               // isTitle: true,

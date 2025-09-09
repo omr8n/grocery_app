@@ -226,20 +226,20 @@ class ProductsCubit extends Cubit<ProductsState> {
     emit(ProductsSuccess(filteredList.reversed.toList()));
   }
 
-  // void searchProducts({
-  //   required String searchText,
-  //   required List<ProductEntity> productsList,
-  // }) {
-  //   final List<ProductEntity> searchList = productsList.where((product) {
-  //     return product.name.toLowerCase().contains(searchText.toLowerCase());
-  //   }).toList();
+  void searchProducts({
+    required String searchText,
+    required List<ProductEntity> productsList,
+  }) {
+    final List<ProductEntity> searchList = productsList.where((product) {
+      return product.name.toLowerCase().contains(searchText.toLowerCase());
+    }).toList();
 
-  //   emit(ProductsSuccess(searchList.reversed.toList()));
-  // }
+    emit(ProductsSuccess(searchList.reversed.toList()));
+  }
 
-  // void resetProducts() {
-  //   emit(ProductsSuccess(_allProducts.reversed.toList()));
-  // }
+  void resetProducts() {
+    emit(ProductsSuccess(_allProducts.reversed.toList()));
+  }
 
   // @override
   // Future<void> close() {

@@ -4,7 +4,7 @@ import 'package:grocery_app/core/widgets/custom_text.dart';
 
 import '../../core/utils/utils.dart';
 import '../../core/widgets/back_widget.dart';
-import '../../core/widgets/empty_products_widget.dart';
+
 import '../home/presentation/views/widgets/on_sale_Item.dart';
 
 class OnSaleView extends StatelessWidget {

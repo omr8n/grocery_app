@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:grocery_app/core/constants/app_constants.dart';
 
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 
 class FetchScreen extends StatefulWidget {
   const FetchScreen({super.key});
