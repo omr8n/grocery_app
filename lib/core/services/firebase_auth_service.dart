@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 
@@ -160,9 +160,9 @@ class FirebaseAuthService {
   //   return userCredential.user!;
   // }
 
-  // bool isLoggedIn() {
-  //   return FirebaseAuth.instance.currentUser != null;
-  // }
+  bool isLoggedIn() {
+    return FirebaseAuth.instance.currentUser != null;
+  }
 
   // Future<void> signOut() async {
   //   await FirebaseAuth.instance.signOut();
@@ -182,9 +182,9 @@ class FirebaseAuthService {
   //   return (await FirebaseAuth.instance.signInWithCredential(credential)).user!;
   // }
 
-  static bool isLoggedIn() {
-    return FirebaseAuth.instance.currentUser != null;
-  }
+  // static bool isLoggedIn() {
+  //   return FirebaseAuth.instance.currentUser != null;
+  // }
 
   static Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();

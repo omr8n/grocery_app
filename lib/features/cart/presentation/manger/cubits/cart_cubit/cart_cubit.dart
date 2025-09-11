@@ -453,17 +453,99 @@
 // }
 
 import 'dart:developer';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grocery_app/Features/cart/presentation/manger/cubits/cart_cubit/cart_cubit.dart';
+// import 'package:grocery_app/Features/cart/presentation/manger/cubits/cart_cubit/cart_cubit.dart';
 import 'package:grocery_app/core/entites/product_entity.dart';
 import 'package:grocery_app/core/repos/cart_repo/cart_repo.dart';
 import 'package:grocery_app/features/cart/domain/entites/cart_entity.dart';
 import 'package:grocery_app/features/cart/domain/entites/cart_item_entity.dart';
-import 'package:grocery_app/features/cart/presentation/manger/cubits/cart_item_cubit/cart_item_cubit.dart';
+// import 'package:grocery_app/features/cart/presentation/manger/cubits/cart_item_cubit/cart_item_cubit.dart';
 import 'package:uuid/uuid.dart';
 
 part 'cart_state.dart';
 
+// class CartCubit extends Cubit<CartState> {
+//   CartCubit(CartRepo cartRepo) : super(CartInitial());
+
+//   CartEntity _cartEntity = const CartEntity([]);
+
+//   CartEntity get cart => _cartEntity;
+
+//   // حساب السعر الكلي للعناصر
+//   double get totalPrice => _cartEntity.calculateTotalPrice();
+//   List<CartItemEntity> get items => _cartEntity.cartItems;
+
+//   /// إضافة منتج للسلة
+//   void addProduct(ProductEntity productEntity) {
+//     if (_cartEntity.isExist(productEntity)) {
+//       final existingItem = _cartEntity.getCartItem(productEntity);
+//       final updatedItem = existingItem.increaseQuantity();
+//       _cartEntity = _cartEntity.updateCartItem(updatedItem);
+
+//       emit(CartItemUpdated(updatedItem, "تم زيادة كمية المنتج"));
+//       log("تم زيادة الكمية للمنتج: ${updatedItem.productEntity.name}");
+//     } else {
+//       final newItem = CartItemEntity(
+//         1,
+//         cartId: const Uuid().v4(),
+//         productEntity: productEntity,
+//       );
+//       _cartEntity = _cartEntity.addCartItem(newItem);
+
+//       emit(CartItemAdded(newItem, "تمت إضافة المنتج إلى السلة"));
+//       log("تمت إضافة المنتج: ${newItem.productEntity.name}");
+//     }
+//   }
+
+//   /// حذف عنصر من السلة
+//   void deleteCartItem(CartItemEntity cartItem) {
+//     _cartEntity = _cartEntity.removeCartItem(cartItem);
+//     emit(CartItemRemoved(cartItem, "تمت إزالة المنتج من السلة"));
+//     log("تمت إزالة المنتج: ${cartItem.productEntity.name}");
+//   }
+
+//   void addProductWithAuthCheck(ProductEntity productEntity) {
+//     if (!FirebaseAuthExtension(FirebaseAuth.instance).currentUserIsLoggedIn()) {
+//       emit(CartAuthRequired());
+//       return;
+//     }
+//     addProduct(productEntity);
+//   }
+
+//   /// تحديث كمية عنصر معين
+//   void updateQuantity(CartItemEntity cartItem, int newQuantity) {
+//     if (newQuantity < 1) return;
+
+//     final updatedItem = cartItem.copyWith(quantity: newQuantity);
+//     _cartEntity = _cartEntity.updateCartItem(updatedItem);
+
+//     emit(CartItemUpdated(updatedItem, "تم تحديث كمية المنتج"));
+//     log(
+//       "تم تحديث الكمية للمنتج: ${updatedItem.productEntity.name} -> $newQuantity",
+//     );
+//   }
+
+//   /// تفريغ السلة
+//   void clearCart() {
+//     _cartEntity = const CartEntity([]);
+//     emit(CartCleared());
+//     log("تم تفريغ السلة بالكامل");
+//   }
+
+//   /// التحقق من وجود منتج في السلة
+//   bool isProductInCart(String productId) {
+//     return _cartEntity.cartItems.any(
+//       (item) => item.productEntity.productId == productId,
+//     );
+//   }
+// }
+
+// extension FirebaseAuthExtension on FirebaseAuth {
+//   bool currentUserIsLoggedIn() {
+//     return currentUser != null;
+//   }
+// }
 class CartCubit extends Cubit<CartState> {
   CartCubit(CartRepo cartRepo) : super(CartInitial());
 
@@ -471,11 +553,9 @@ class CartCubit extends Cubit<CartState> {
 
   CartEntity get cart => _cartEntity;
 
-  // حساب السعر الكلي للعناصر
   double get totalPrice => _cartEntity.calculateTotalPrice();
   List<CartItemEntity> get items => _cartEntity.cartItems;
 
-  /// إضافة منتج للسلة
   void addProduct(ProductEntity productEntity) {
     if (_cartEntity.isExist(productEntity)) {
       final existingItem = _cartEntity.getCartItem(productEntity);
@@ -483,7 +563,6 @@ class CartCubit extends Cubit<CartState> {
       _cartEntity = _cartEntity.updateCartItem(updatedItem);
 
       emit(CartItemUpdated(updatedItem, "تم زيادة كمية المنتج"));
-      log("تم زيادة الكمية للمنتج: ${updatedItem.productEntity.name}");
     } else {
       final newItem = CartItemEntity(
         1,
@@ -493,18 +572,43 @@ class CartCubit extends Cubit<CartState> {
       _cartEntity = _cartEntity.addCartItem(newItem);
 
       emit(CartItemAdded(newItem, "تمت إضافة المنتج إلى السلة"));
-      log("تمت إضافة المنتج: ${newItem.productEntity.name}");
     }
   }
 
-  /// حذف عنصر من السلة
+  /// **دالة جديدة لتقليل كمية المنتج بمقدار واحد**
+  void reduceQuantityByOne(String productId) {
+    final existingItem = _cartEntity.cartItems.firstWhere(
+      (item) => item.productEntity.productId == productId,
+      //  orElse: () => null,
+    );
+
+    if (existingItem != null) {
+      final newQuantity = existingItem.quantity - 1;
+
+      if (newQuantity > 0) {
+        final updatedItem = existingItem.copyWith(quantity: newQuantity);
+        _cartEntity = _cartEntity.updateCartItem(updatedItem);
+        emit(CartItemUpdated(updatedItem, "تم تقليل كمية المنتج"));
+      } else {
+        _cartEntity = _cartEntity.removeCartItem(existingItem);
+        emit(CartItemRemoved(existingItem, "تمت إزالة المنتج من السلة"));
+      }
+    }
+  }
+
   void deleteCartItem(CartItemEntity cartItem) {
     _cartEntity = _cartEntity.removeCartItem(cartItem);
     emit(CartItemRemoved(cartItem, "تمت إزالة المنتج من السلة"));
-    log("تمت إزالة المنتج: ${cartItem.productEntity.name}");
   }
 
-  /// تحديث كمية عنصر معين
+  void addProductWithAuthCheck(ProductEntity productEntity) {
+    if (!FirebaseAuthExtension(FirebaseAuth.instance).currentUserIsLoggedIn()) {
+      emit(CartAuthRequired());
+      return;
+    }
+    addProduct(productEntity);
+  }
+
   void updateQuantity(CartItemEntity cartItem, int newQuantity) {
     if (newQuantity < 1) return;
 
@@ -512,20 +616,22 @@ class CartCubit extends Cubit<CartState> {
     _cartEntity = _cartEntity.updateCartItem(updatedItem);
 
     emit(CartItemUpdated(updatedItem, "تم تحديث كمية المنتج"));
-    log(
-      "تم تحديث الكمية للمنتج: ${updatedItem.productEntity.name} -> $newQuantity",
-    );
   }
 
-  /// تفريغ السلة
   void clearCart() {
     _cartEntity = const CartEntity([]);
     emit(CartCleared());
-    log("تم تفريغ السلة بالكامل");
   }
 
-  /// التحقق من وجود منتج في السلة
-  bool isProductInCart(ProductEntity product) {
-    return _cartEntity.isExist(product);
+  bool isProductInCart(String productId) {
+    return _cartEntity.cartItems.any(
+      (item) => item.productEntity.productId == productId,
+    );
+  }
+}
+
+extension FirebaseAuthExtension on FirebaseAuth {
+  bool currentUserIsLoggedIn() {
+    return currentUser != null;
   }
 }

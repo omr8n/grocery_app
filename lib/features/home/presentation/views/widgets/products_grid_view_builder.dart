@@ -173,12 +173,12 @@ class ProductGridViewBlocBuilder extends StatelessWidget {
         }
         // حالة نجاح تحميل المنتجات
         else if (state is ProductsSuccess) {
-          final validProducts = state.products
-              .where(
-                (product) =>
-                    product.imageUrl != null && product.productId.isNotEmpty,
-              )
-              .toList();
+          // final validProducts = state.products
+          //     .where(
+          //       (product) =>
+          //           product.imageUrl != null && product.productId.isNotEmpty,
+          //     )
+          //     .toList();
 
           // if (validProducts.isEmpty) {
           //   return const SliverToBoxAdapter(

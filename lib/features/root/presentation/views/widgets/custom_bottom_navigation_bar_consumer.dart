@@ -326,6 +326,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery_app/features/cart/presentation/manger/cubits/cart_cubit/cart_cubit.dart';
+import 'package:grocery_app/features/inner_screens/auth/signin_view.dart';
 // import 'package:grocery_app/features/cart/presentation/manger/cubits/cart_cubit/cart_state.dart';
 
 class CustomBottomNavigationBarConsumer extends StatelessWidget {
@@ -375,7 +376,7 @@ class CustomBottomNavigationBarConsumer extends StatelessWidget {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, '/signin');
+              Navigator.pushNamed(context, SigninView.routeName);
             },
             child: const Text("تسجيل الدخول"),
           ),

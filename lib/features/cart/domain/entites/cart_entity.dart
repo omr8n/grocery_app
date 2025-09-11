@@ -131,8 +131,12 @@
 // }
 
 import 'package:equatable/equatable.dart';
+// import 'package:grocery_app/features/cart/domain/entites/cart_item_entity.dart';
 import 'package:grocery_app/core/entites/product_entity.dart';
-import 'cart_item_entity.dart';
+import 'package:grocery_app/features/cart/domain/entites/cart_item_entity.dart';
+
+// import 'cart_item_entity.dart';
+// import 'cart_item_entity.dart';
 // import '../../../edit/domain/entities/product_entity.dart';
 
 class CartEntity extends Equatable {

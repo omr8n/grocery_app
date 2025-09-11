@@ -1,13 +1,13 @@
-part of 'cart_item_cubit.dart';
+// part of 'cart_item_cubit.dart';
 
-sealed class CartItemState {
-  const CartItemState();
-}
+// sealed class CartItemState {
+//   const CartItemState();
+// }
 
-final class CartItemInitial extends CartItemState {}
+// final class CartItemInitial extends CartItemState {}
 
-final class CartItemUpdated extends CartItemState {
-  final CartItemEntity cartItemEntity;
+// final class CartItemUpdated extends CartItemState {
+//   final CartItemEntity cartItemEntity;
 
-  const CartItemUpdated(this.cartItemEntity);
-}
+//   const CartItemUpdated(this.cartItemEntity);
+// }

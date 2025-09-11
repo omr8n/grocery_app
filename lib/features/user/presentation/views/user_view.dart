@@ -4,6 +4,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/core/cubits/orders_cubit/orders_cubit.dart';
+import 'package:grocery_app/core/cubits/viewed_recently_cubit/viewed_recently_cubit.dart';
+import 'package:grocery_app/core/cubits/wishlist_cubit/wishlist_cubit.dart';
+import 'package:grocery_app/features/cart/presentation/manger/cubits/cart_cubit/cart_cubit.dart';
 import 'package:grocery_app/features/inner_screens/auth/forget_pass.dart';
 
 import 'package:grocery_app/features/user/presentation/views/widgets/custom_list_tile.dart';
@@ -34,14 +38,14 @@ class _UserViewState extends State<UserView>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  //  late FirebaseAuthService firebaseAuthService;
+  late FirebaseAuthService firebaseAuthService;
 
   late TextEditingController _addressTextController;
 
   @override
   void initState() {
     _addressTextController = TextEditingController(text: "");
-    //    firebaseAuthService = FirebaseAuthService();
+    firebaseAuthService = FirebaseAuthService();
 
     getUserData();
     super.initState();
@@ -50,13 +54,15 @@ class _UserViewState extends State<UserView>
   @override
   void dispose() {
     _addressTextController.dispose();
+
     super.dispose();
   }
 
-  final isLoggedIn = FirebaseAuthService.isLoggedIn();
-  String get userName => isLoggedIn ? getUser().name : "Guest User";
+  // final isLoggedIn = FirebaseAuthService.isLoggedIn();
+  // String get userName => isLoggedIn ? getUser().name : "Guest User";
 
-  String get userEmail => isLoggedIn ? getUser().email : "guest@example.com";
+  // String get userEmail => isLoggedIn ? getUser().email : "guest@example.com";
+
   String? address;
   //  bool _isLoading = false;
   Future<void> getUserData() async {
@@ -96,6 +102,15 @@ class _UserViewState extends State<UserView>
 
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = firebaseAuthService.isLoggedIn();
+
+    // final userImage = isLoggedIn
+    //     ? getUser().userImage
+    //     : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png";
+
+    final userName = isLoggedIn ? getUser().name : "Guest User";
+
+    final userEmail = isLoggedIn ? getUser().email : "guest@example.com";
     super.build(context);
     // final ThemeProvider themeProvider = Provider.of<ThemeProvider>(
     //   context,
@@ -259,33 +274,41 @@ class _UserViewState extends State<UserView>
                 //   value: themeProvider.getIsDarkTheme,
                 // ),
                 CustomListTile(
-                  title: 'Logout',
-                  icon: IconlyLight.logout,
+                  icon: isLoggedIn ? Icons.logout : Icons.login,
+                  title: isLoggedIn ? "Logout" : "Login",
+                  // title: 'Logout',
+                  // icon: IconlyLight.logout,
                   // title: user == null ? 'Login' : 'Logout',
                   // icon: user == null ? IconlyLight.login : IconlyLight.logout,
                   onTap: () async {
-                    // if (user == null) {
-                    //   Navigator.of(context).push(
-                    //     MaterialPageRoute(
-                    //       builder: (context) => const LoginScreen(),
-                    //     ),
-                    //   );
-                    //   return;
-                    // }
-                    Navigator.pushNamed(context, SigninView.routeName);
-                    GlobalMethods.warningDialog(
-                      title: 'Sign out',
-                      subtitle: 'Do you wanna sign out?',
-                      fct: () async {
-                        // await authInstance.signOut();
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const Scaffold(),
-                        //   ),
-                        // );
-                      },
-                      context: context,
-                    );
+                    if (isLoggedIn) {
+                      await FirebaseAuthService.signOut();
+
+                      if (!mounted) return; // ✅ تحقق أن الودجت لسا عايش
+
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (!mounted) return; // ✅ كمان تحقق داخل الكولباك
+
+                        context.read<CartCubit>().clearCart();
+                        context.read<WishlistCubit>().clearWishlist();
+                        context.read<OrdersCubit>().clearOrders();
+                        context.read<ViewedProdCubit>().clearHistory();
+
+                        GlobalMethods.showErrorORWarningDialog(
+                          context: context,
+                          subtitle: "Logged out successfully",
+                          fct: () {},
+                        );
+                      });
+
+                      setState(() {});
+                    } else {
+                      await Navigator.pushNamed(context, SigninView.routeName);
+
+                      if (!mounted) return; // ✅ بعد الـ await
+
+                      setState(() {});
+                    }
                   },
                   // subtitle: '',
                 ),

@@ -207,7 +207,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:badges/badges.dart' as badges;
 
-import '../../../../cart/presentation/manger/cubits/cart_cubit/cart_cubit.dart';
+// import '../../../../cart/presentation/manger/cubits/cart_cubit/cart_cubit.dart';
 
 // class CustomBottomNavigationBar extends StatelessWidget {
 //   const CustomBottomNavigationBar({

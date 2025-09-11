@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:grocery_app/core/constants/app_constants.dart';
+// import 'package:grocery_app/core/constants/app_constants.dart';
+import 'package:grocery_app/core/entites/product_entity.dart';
+import 'package:grocery_app/core/helper/functions/global_methods.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
+import 'package:grocery_app/features/inner_screens/product_details_view.dart';
 
 import '../../../core/utils/utils.dart';
 
 class ViewedRecentlyItem extends StatefulWidget {
-  const ViewedRecentlyItem({super.key});
+  const ViewedRecentlyItem({super.key, required this.productEntity});
+  final ProductEntity productEntity;
 
   @override
   State<ViewedRecentlyItem> createState() => _ViewedWidgetState();
@@ -33,16 +37,19 @@ class _ViewedWidgetState extends State<ViewedRecentlyItem> {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-          // GlobalMethods.navigateTo(
-          //     ctx: context, routeName: ProductDetails.routeName);
+          GlobalMethods.navigateTo(
+            ctx: context,
+            routeName: ProductDetailsView.routeName,
+          );
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FancyShimmerImage(
+              imageUrl: widget.productEntity.imageUrl!,
               // imageUrl: getCurrProduct.imageUrl,
-              imageUrl: AppConstants.productImageUrl,
+              //    imageUrl: AppConstants.productImageUrl,
               boxFit: BoxFit.fill,
               height: size.width * 0.27,
               width: size.width * 0.25,
@@ -52,16 +59,16 @@ class _ViewedWidgetState extends State<ViewedRecentlyItem> {
               children: [
                 CustomText(
                   //text: getCurrProduct.title,
-                  text: "few",
-
+                  //  text: "few",
+                  text: widget.productEntity.name,
                   fontSize: 24,
                   isTitle: true,
                 ),
                 const SizedBox(height: 12),
                 CustomText(
-                  //  text: '\$${usedPrice.toStringAsFixed(2)}',
-                  text: "\$543",
+                  text: '\$${widget.productEntity.price.toStringAsFixed(2)}',
 
+                  //  text: "\$543",
                   fontSize: 20,
                   isTitle: false,
                 ),

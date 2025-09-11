@@ -2,9 +2,12 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:grocery_app/core/constants/app_constants.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
 import 'package:grocery_app/core/widgets/quantity_controller.dart';
+import 'package:grocery_app/features/cart/domain/entites/cart_item_entity.dart';
+import 'package:grocery_app/features/cart/presentation/manger/cubits/cart_cubit/cart_cubit.dart';
 
 // import 'package:provider/provider.dart';
 
@@ -12,8 +15,9 @@ import '../../../../../core/utils/utils.dart';
 import '../../../../../core/widgets/heart_btn.dart';
 
 class CartWidget extends StatefulWidget {
-  const CartWidget({super.key});
+  const CartWidget({super.key, required this.cartItemEntity});
   // final int q;
+  final CartItemEntity cartItemEntity;
   @override
   State<CartWidget> createState() => _CartWidgetState();
 }
@@ -70,8 +74,9 @@ class _CartWidgetState extends State<CartWidget> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: FancyShimmerImage(
-                        imageUrl:
-                            "https://m.media-amazon.com/images/I/61dV53UuRVS.__AC_SX300_SY300_QL70_FMwebp_.jpg",
+                        imageUrl: widget.cartItemEntity.productEntity.imageUrl!,
+                        // imageUrl:
+                        //     "https://m.media-amazon.com/images/I/61dV53UuRVS.__AC_SX300_SY300_QL70_FMwebp_.jpg",
                         // imageUrl: getCurrProduct.imageUrl,
                         boxFit: BoxFit.fill,
                       ),
@@ -80,7 +85,7 @@ class _CartWidgetState extends State<CartWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomText(
-                          text: "gewf",
+                          text: widget.cartItemEntity.productEntity.name,
 
                           // text: getCurrProduct.title,
                           fontSize: 20,
@@ -97,8 +102,16 @@ class _CartWidgetState extends State<CartWidget> {
                                   if (_quantityTextController.text == '1') {
                                     return;
                                   } else {
-                                    // cartProvider.reduceQuantityByOne(
-                                    //     cartModel.productId);
+                                    // استدعاء الدالة من الـ CartCubit
+                                    context
+                                        .read<CartCubit>()
+                                        .reduceQuantityByOne(
+                                          widget
+                                              .cartItemEntity
+                                              .productEntity
+                                              .productId,
+                                        );
+
                                     setState(() {
                                       _quantityTextController.text =
                                           (int.parse(
@@ -205,14 +218,15 @@ class _CartWidgetState extends State<CartWidget> {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          HeartBTN(
-                            productId: "getCurrProduct.id",
-                            isInWishlist: true,
+                          HeartBottonWidget(
+                            size: 20,
+                            product: widget.cartItemEntity.productEntity,
                           ),
+
                           CustomText(
-                            // text:
-                            //     '\$${(usedPrice * int.parse(_quantityTextController.text)).toStringAsFixed(2)}',
-                            text: r"$ 21",
+                            text:
+                                '\$${(widget.cartItemEntity.productEntity.price * int.parse(_quantityTextController.text)).toStringAsFixed(2)}',
+                            //    text: r"$ 21",
                             fontSize: 18,
                             maxLines: 1,
                           ),

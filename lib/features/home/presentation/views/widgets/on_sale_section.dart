@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+// import 'package:grocery_app/features/home/presentation/views/widgets/on_sale_list_view.dart';
+import 'package:grocery_app/features/home/presentation/views/widgets/on_sale_list_view_builder.dart';
 
 import '../../../../../core/helper/functions/global_methods.dart';
-import '../../../../../core/utils/utils.dart';
+// import '../../../../../core/utils/utils.dart';
 import '../../../../../core/widgets/custom_text.dart';
 import '../../../../inner_screens/on_sale_view.dart';
-import 'on_sale_item.dart';
+// import 'on_sale_item.dart';
 
 class OnSaleSection extends StatelessWidget {
   const OnSaleSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final Utils utils = Utils(context);
-    // final themeState = utils.getTheme;
-    // final Color color = Utils(context).color;
-    Size size = utils.getScreenSize;
     return Column(
       children: [
         TextButton(
@@ -50,24 +48,7 @@ class OnSaleSection extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            Flexible(
-              child: SizedBox(
-                height: size.height * 0.22,
-                child: ListView.builder(
-                  // itemCount: productsOnSale.length < 10
-                  //     ? productsOnSale.length
-                  //     : 10,
-                  itemCount: 10,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (ctx, index) {
-                    return const OnSaleItem();
-                    // return ChangeNotifierProvider.value(
-                    //     value: productsOnSale[index],
-                    //     child: const OnSaleWidget());
-                  },
-                ),
-              ),
-            ),
+            Flexible(child: OnSaleListViewBuilder()),
           ],
         ),
       ],

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:grocery_app/core/widgets/custom_text.dart';
+import 'package:grocery_app/features/home/presentation/views/widgets/on_sale_item.dart';
 
 import '../../core/utils/utils.dart';
 import '../../core/widgets/back_widget.dart';
 
-import '../home/presentation/views/widgets/on_sale_Item.dart';
+// import '../home/presentation/views/widgets/on_sale_Item.dart';
 
 class OnSaleView extends StatelessWidget {
   static const routeName = "/OnSaleScreen";
@@ -28,31 +29,31 @@ class OnSaleView extends StatelessWidget {
           isTitle: true,
         ),
       ),
-      body:
-          // _isEmbty
-          //     ?
-          // const EmptyProdWidget(
-          //     text: 'No products on sale yet!,\nStay tuned',
-          //   )
-          // :
-          GridView.count(
-            crossAxisCount: 2,
-            padding: EdgeInsets.zero,
-            // crossAxisSpacing: 10,
-            childAspectRatio: size.width / (size.height * 0.45),
-            children: List.generate(16, (index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: OnSaleItem(),
-              );
-            }),
-            // children: List.generate(productsOnSale.length, (index) {
-            //   return ChangeNotifierProvider.value(
-            //     value: productsOnSale[index],
-            //     child: const OnSaleItem(),
-            //   );
-            // }),
-          ),
+      body: SizedBox(),
+      // _isEmbty
+      //     ?
+      // const EmptyProdWidget(
+      //     text: 'No products on sale yet!,\nStay tuned',
+      //   )
+      // :
+      // GridView.count(
+      //   crossAxisCount: 2,
+      //   padding: EdgeInsets.zero,
+      //   // crossAxisSpacing: 10,
+      //   childAspectRatio: size.width / (size.height * 0.45),
+      //   children: List.generate(16, (index) {
+      //     return Padding(
+      //       padding: const EdgeInsets.symmetric(vertical: 8.0),
+      //       child: OnSaleItem(),
+      //     );
+      //   }),
+      //   // children: List.generate(productsOnSale.length, (index) {
+      //   //   return ChangeNotifierProvider.value(
+      //   //     value: productsOnSale[index],
+      //   //     child: const OnSaleItem(),
+      //   //   );
+      //   // }),
+      // ),
     );
   }
 }

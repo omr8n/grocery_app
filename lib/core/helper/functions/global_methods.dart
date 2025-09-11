@@ -10,6 +10,66 @@ class GlobalMethods {
     Navigator.pushNamed(ctx, routeName);
   }
 
+  static void navigateReplacement({
+    required BuildContext ctx,
+    required String routeName,
+  }) {
+    Navigator.pushReplacementNamed(ctx, routeName);
+  }
+
+  static Future<void> showErrorORWarningDialog({
+    required BuildContext context,
+    required String subtitle,
+    required VoidCallback fct,
+    bool isError = true,
+  }) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/warning-sign.png',
+                height: 60,
+                width: 60,
+              ),
+              const SizedBox(height: 16.0),
+              CustomText(text: subtitle, isTitle: true),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Visibility(
+                    visible: !isError,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: CustomText(text: "Cancel", color: Colors.green),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      fct();
+                      Navigator.pop(context);
+                    },
+                    child: const CustomText(text: "OK", color: Colors.red),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   static Future<void> warningDialog({
     required String title,
     required String subtitle,

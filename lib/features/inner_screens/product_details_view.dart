@@ -3,21 +3,25 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grocery_app/core/entites/product_entity.dart';
+import 'package:grocery_app/core/widgets/add_to_button_details.dart';
 // import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/core/widgets/back_widget.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
+import 'package:grocery_app/core/widgets/heart_btn.dart';
+// import 'package:grocery_app/core/widgets/heart_btn.dart';
 import 'package:grocery_app/core/widgets/quantity_controller.dart';
 
 // import 'package:provider/provider.dart';
 
 import '../../core/utils/utils.dart';
-import '../../core/widgets/heart_btn.dart';
+// import '../../core/widgets/heart_btn.dart';
 
 class ProductDetailsView extends StatefulWidget {
   static const routeName = '/ProductDetails';
 
-  const ProductDetailsView({super.key});
-
+  const ProductDetailsView({super.key, required this.productEntity});
+  final ProductEntity productEntity;
   @override
   State<ProductDetailsView> createState() => _ProductDetailsViewState();
 }
@@ -54,8 +58,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
             Flexible(
               flex: 2,
               child: FancyShimmerImage(
-                imageUrl:
-                    "https://m.media-amazon.com/images/I/61dV53UuRVS.__AC_SX300_SY300_QL70_FMwebp_.jpg",
+                imageUrl: widget.productEntity.imageUrl!,
+                // imageUrl:
+                //     "https://m.media-amazon.com/images/I/61dV53UuRVS.__AC_SX300_SY300_QL70_FMwebp_.jpg",
                 boxFit: BoxFit.scaleDown,
                 width: size.width,
                 // height: screenHeight * .4,
@@ -86,13 +91,16 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                           Flexible(
                             child: CustomText(
                               //  text: getCurrProduct.title,
-                              text: "title",
-
+                              ////  text: "title",
+                              text: widget.productEntity.name,
                               fontSize: 25,
                               isTitle: true,
                             ),
                           ),
-                          HeartBTN(productId: "fewfw", isInWishlist: true),
+                          HeartBottonWidget(
+                            size: 20,
+                            product: widget.productEntity,
+                          ),
                         ],
                       ),
                     ),
@@ -104,26 +112,33 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CustomText(
-                            //    text: '\$${usedPrice.toStringAsFixed(2)}',
-                            text: '\$${324}',
+                            text:
+                                '\$${widget.productEntity.price.toStringAsFixed(2)}',
+
+                            // text: '\$${324}',
                             color: Colors.green,
                             fontSize: 22,
                             isTitle: true,
                           ),
                           CustomText(
-                            // text: getCurrProduct.isPiece ? '/Piece' : '/Kg',
-                            text: ' 34/Piece',
+                            text: widget.productEntity.isPiece
+                                ? '/Piece'
+                                : '/Kg',
 
+                            // text: ' 34/Piece',
                             fontSize: 12,
                             isTitle: false,
                           ),
                           const SizedBox(width: 10),
                           Visibility(
+                            visible: widget.productEntity.isOnSale
+                                ? true
+                                : false,
                             // visible: getCurrProduct.isOnSale ? true : false,
-                            visible: true,
+                            //  visible: true,
                             child: Text(
-                              //  '\$${getCurrProduct.price.toStringAsFixed(2)}',
-                              '\$2',
+                              '\$${widget.productEntity.price.toStringAsFixed(2)}',
+                              // '\$2',
                               style: TextStyle(
                                 fontSize: 15,
                                 decoration: TextDecoration.lineThrough,
@@ -274,50 +289,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                             ),
                           ),
                           Flexible(
-                            child: Material(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(10),
-                              child: InkWell(
-                                // onTap: _isInCart
-                                //     ? null
-                                //     : () async {
-                                //         // if (_isInCart) {
-                                //         //   return;
-                                //         // }
-                                //         final User? user =
-                                //             authInstance.currentUser;
-
-                                //         if (user == null) {
-                                //           GlobalMethods.errorDialog(
-                                //               subtitle:
-                                //                   'No user found, Please login first',
-                                //               context: context);
-                                //           return;
-                                //         }
-                                //         await GlobalMethods.addToCart(
-                                //             productId: getCurrProduct.id,
-                                //             quantity: int.parse(
-                                //                 _quantityTextController.text),
-                                //             context: context);
-                                //         await cartProvider.fetchCart();
-                                //         // cartProvider.addProductsToCart(
-                                //         //     productId: getCurrProduct.id,
-                                //         //     quantity: int.parse(
-                                //         //         _quantityTextController.text));
-                                //       },
-                                onTap: () {},
-                                borderRadius: BorderRadius.circular(10),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: CustomText(
-                                    // text:
-                                    //     _isInCart ? 'In cart' : 'Add to cart',
-                                    text: 'Add to cart',
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
+                            child: AddCartButtonDetails(
+                              productEntity: widget.productEntity,
                             ),
                           ),
                         ],

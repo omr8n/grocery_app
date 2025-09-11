@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery_app/core/widgets/loading_manager.dart';
 
 // import '../../../../../core/helper_functions/build_error_bar.dart';
 
@@ -50,7 +51,7 @@ class RegisterViewBodyBlocConsumer extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return CustomProgressHud(
+        return LoadingManager(
           isLoading: state is SignupLoading,
           child: const RigisterViewBody(), // <<< مافي ScrollView هون
         );

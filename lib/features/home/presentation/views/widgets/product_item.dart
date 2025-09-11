@@ -5,13 +5,14 @@ import 'package:flutter/services.dart';
 // import 'package:grocery_app/core/constants/app_constants.dart';
 import 'package:grocery_app/core/entites/product_entity.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
+import 'package:grocery_app/core/widgets/heart_btn.dart';
 import 'package:grocery_app/features/home/presentation/views/widgets/add_to_cart_button.dart';
 import 'package:grocery_app/features/home/presentation/views/widgets/price_item.dart';
 import 'package:grocery_app/features/inner_screens/product_details_view.dart';
 
-import '../../../../../core/helper/functions/global_methods.dart';
+// import '../../../../../core/helper/functions/global_methods.dart';
 import '../../../../../core/utils/utils.dart';
-import '../../../../../core/widgets/heart_btn.dart';
+// import '../../../../../core/widgets/heart_btn.dart';
 
 class ProductItem extends StatefulWidget {
   const ProductItem({super.key, required this.product});
@@ -51,12 +52,17 @@ class _ProductItemState extends State<ProductItem> {
         color: Theme.of(context).cardColor,
         child: InkWell(
           onTap: () {
-            // Navigator.pushNamed(context, ProductDetails.routeName,
-            //     arguments: productModel.id);
-            GlobalMethods.navigateTo(
-              ctx: context,
-              routeName: ProductDetailsView.routeName,
+            Navigator.pushNamed(
+              context,
+              ProductDetailsView.routeName,
+              arguments: widget.product,
+              // arguments: productModel.id,
             );
+            // GlobalMethods.navigateTo(
+            //   ctx: context,
+            //   routeName: ProductDetailsView.routeName,
+
+            // );
           },
           borderRadius: BorderRadius.circular(12),
           child: Column(
@@ -74,6 +80,7 @@ class _ProductItemState extends State<ProductItem> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
+                      flex: 5,
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: CustomText(
@@ -89,10 +96,10 @@ class _ProductItemState extends State<ProductItem> {
                       ),
                     ),
                     Flexible(
-                      child: HeartBTN(
-                        productId: widget.product.productId,
-                        // productId: "productModel",
-                        isInWishlist: true,
+                      flex: 1,
+                      child: HeartBottonWidget(
+                        size: 25,
+                        product: widget.product,
                       ),
                     ),
                   ],
@@ -216,7 +223,7 @@ class _ProductItemState extends State<ProductItem> {
               ),
               Spacer(),
               // زر Add to cart
-              AddToCartButton(productEntity: widget.product, ),
+              AddToCartButton(productEntity: widget.product),
               // AddToCartButton(productEntity:),
             ],
           ),

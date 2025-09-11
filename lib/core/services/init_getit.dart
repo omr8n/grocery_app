@@ -55,10 +55,13 @@
 //   // );
 // }
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:get_it/get_it.dart';
+import 'package:grocery_app/core/helper/functions/global_methods.dart';
 import 'package:grocery_app/core/repos/order_repo/order_repo.dart';
+import 'package:grocery_app/core/repos/wishlist_repo/wishlist_repo.dart';
+import 'package:grocery_app/core/repos/wishlist_repo/wishlist_repo_impl.dart';
 
 import '../../features/inner_screens/auth/data/repos/auth_repo_impl.dart';
 import '../../features/inner_screens/auth/domain/repos/auth_repo.dart';
@@ -71,11 +74,12 @@ import '../repos/products_repo/products_repo_impl.dart';
 import 'data_service.dart';
 import 'firebase_auth_service.dart';
 import 'firestore_service.dart';
-import 'stoarage_service.dart';
+// import 'stoarage_service.dart';
 
 GetIt getIt = GetIt.instance;
 
 void setupLocator() {
+  getIt.registerSingleton<GlobalMethods>(GlobalMethods());
   //  getIt.registerSingleton<NavigationService>(NavigationService());
   getIt.registerSingleton<FirebaseAuthService>(FirebaseAuthService());
   getIt.registerSingleton<DatabaseService>(FireStoreService());
@@ -102,9 +106,9 @@ void setupLocator() {
   );
 
   getIt.registerSingleton<CartRepo>(CartRepoImpl(getIt.get<DatabaseService>()));
-  // getIt.registerSingleton<WishlistRepo>(
-  //   WishlistRepoImpl(getIt.get<DatabaseService>()),
-  // );
+  getIt.registerSingleton<WishlistRepo>(
+    WishlistRepoImpl(getIt.get<DatabaseService>()),
+  );
   getIt.registerSingleton<OrdersRepo>(
     OrdersRepoImpl(getIt.get<DatabaseService>()),
   );

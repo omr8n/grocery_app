@@ -1,6 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery_app/features/cart/domain/entites/cart_item_entity.dart';
+import 'package:grocery_app/features/cart/presentation/manger/cubits/cart_cubit/cart_cubit.dart';
+import 'package:grocery_app/features/cart/presentation/view/widgets/cart_list_view.dart';
+import 'package:grocery_app/features/cart/presentation/view/widgets/custom_chekout.dart';
+import 'package:grocery_app/features/inner_screens/auth/domain/entites/user_entity.dart';
 
 import '../../../../../core/cubits/orders_cubit/orders_cubit.dart';
 import '../../../../../core/cubits/orders_cubit/orders_state.dart';
@@ -14,11 +19,11 @@ import '../../../../../core/models/cart_model.dart';
 
 import '../../../../../core/widgets/empty_screen.dart';
 
-import '../../../../inner_screens/auth/domain/entites/user_entity.dart';
-import '../../../domain/entites/cart_item_entity.dart';
+// import '../../../../inner_screens/auth/domain/entites/user_entity.dart';
+// import '../../../domain/entites/cart_item_entity.dart';
 
-import '../../manger/cubits/cart_cubit/cart_cubit.dart';
-import 'cart_list_view.dart';
+// import '../../manger/cubits/cart_cubit/cart_cubit.dart';
+// import 'cart_list_view.dart';
 
 class CartViewBody extends StatefulWidget {
   const CartViewBody({super.key});
@@ -66,7 +71,14 @@ class _CartViewBodyState extends State<CartViewBody> {
 
           return Column(
             children: [
-              Expanded(child: CartListView(cartItems: cartItems)),
+              CustomChekout(
+                totalPrice: total,
+                isLoading: isPlacingOrder,
+                function: isPlacingOrder
+                    ? null
+                    : () => _placeOrder(context, cartItems, total),
+              ),
+              Flexible(child: CartListView(cartItems: cartItems)),
               // CartBottomCheckout(
               //   totalPrice: total,
               //   isLoading: isPlacingOrder,
@@ -128,6 +140,4 @@ class _CartViewBodyState extends State<CartViewBody> {
       userEntity: userEntity,
     );
   }
-
-  // }
 }

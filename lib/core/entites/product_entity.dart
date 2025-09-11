@@ -163,7 +163,9 @@
 //     isPiece,
 //   ];
 // }
-//  ignore: must_be_immutable
+//
+//ignore: must_be_immutable
+
 import 'package:equatable/equatable.dart';
 
 import 'review_entity.dart';

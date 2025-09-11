@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/core/entites/product_entity.dart';
 
 import '../../Features/root/presentation/views/root_view.dart';
 import '../../features/inner_screens/auth/forget_pass.dart';
@@ -35,9 +36,15 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         builder: (context) =>
             ProductsView(passedCategory: args is String ? args : null),
       );
+    // case ProductDetailsView.routeName:
+    //   return MaterialPageRoute(
+    //     builder: (context) => const ProductDetailsView(),
+    //   );
     case ProductDetailsView.routeName:
       return MaterialPageRoute(
-        builder: (context) => const ProductDetailsView(),
+        builder: (context) => ProductDetailsView(
+          productEntity: settings.arguments as ProductEntity,
+        ),
       );
     case WishlistView.routeName:
       return MaterialPageRoute(builder: (context) => const WishlistView());

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/core/cubits/products_cubit/products_cubit.dart';
+import 'package:grocery_app/core/cubits/viewed_recently_cubit/viewed_recently_cubit.dart';
+import 'package:grocery_app/core/cubits/viewed_recently_cubit/viewed_recently_state.dart';
 import 'package:grocery_app/core/widgets/back_widget.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
+import 'package:grocery_app/core/widgets/empty_screen.dart';
 // import 'package:grocery_app/providers/viewed_prod_provider.dart';
 // import 'package:grocery_app/widgets/back_widget.dart';
 // import 'package:grocery_app/widgets/empty_screen.dart';
@@ -31,51 +36,126 @@ class _ViewedRecentlyViewState extends State<ViewedRecentlyView> {
     //     .reversed
     //     .toList();
     // if (viewedProdItemsList.isEmpty) {
-    //   return const EmptyScreen(
-    //     title: 'Your history is empty',
-    //     subtitle: 'No products has been viewed yet!',
-    //     buttonText: 'Shop now',
-    //     imagePath: 'assets/images/history.png',
-    //   );
+    //   return const
     // } else {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              GlobalMethods.warningDialog(
-                title: 'Empty your history?',
-                subtitle: 'Are you sure?',
-                fct: () {},
-                context: context,
-              );
-            },
-            icon: Icon(IconlyBroken.delete),
-          ),
-        ],
-        leading: const BackWidget(),
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        centerTitle: true,
-        title: CustomText(text: 'History', fontSize: 24.0),
-        backgroundColor: Theme.of(
-          context,
-        ).scaffoldBackgroundColor.withOpacity(0.9),
-      ),
-      body: ListView.builder(
-        // itemCount: viewedProdItemsList.length,
-        itemCount: 12,
-        itemBuilder: (ctx, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
-            child: ViewedRecentlyItem(),
-            // child: ChangeNotifierProvider.value(
-            //     value: viewedProdItemsList[index],
-            //     child: ViewedRecentlyWidget()),
+    return BlocBuilder<ViewedProdCubit, ViewedProdState>(
+      builder: (context, state) {
+        if (state is ViewedProdUpdated) {
+          final itemsList = state.viewedProdItems.values.toList();
+
+          if (itemsList.isEmpty) {
+            return const Scaffold(
+              body: EmptyScreen(
+                title: 'Your history is empty',
+                subtitle: 'No products has been viewed yet!',
+                buttonText: 'Shop now',
+                imagePath: 'assets/images/history.png',
+              ),
+            );
+          }
+
+          // للحصول على بيانات المنتجات من ProductsCubit
+          final productsCubit = context.watch<ProductsCubit>();
+
+          return Scaffold(
+            appBar: AppBar(
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    GlobalMethods.warningDialog(
+                      title: 'Empty your history?',
+                      subtitle: 'Are you sure?',
+                      fct: () {},
+                      context: context,
+                    );
+                  },
+                  icon: Icon(IconlyBroken.delete),
+                ),
+              ],
+              leading: const BackWidget(),
+              automaticallyImplyLeading: false,
+              elevation: 0,
+              centerTitle: true,
+              title: CustomText(text: 'History', fontSize: 24.0),
+              backgroundColor: Theme.of(
+                context,
+              ).scaffoldBackgroundColor.withOpacity(0.9),
+            ),
+
+            body: ListView.builder(
+              // itemCount: viewedProdItemsList.length,
+              itemCount: 12,
+              itemBuilder: (ctx, index) {
+                final productId = itemsList[index].productId;
+                final productEntity = productsCubit.findByProdId(productId);
+
+                if (productEntity == null) {
+                  return const SizedBox.shrink();
+                }
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 2,
+                    vertical: 6,
+                  ),
+                  child: ViewedRecentlyItem(
+                    key: Key(productEntity.productId),
+                    productEntity: productEntity,
+                  ),
+                  //       productEntity: productEntity,),
+                  // child: ChangeNotifierProvider.value(
+                  //     value: viewedProdItemsList[index],
+                  //     child: ViewedRecentlyWidget()),
+                );
+              },
+            ),
+            // body: DynamicHeightGridView(
+            //   itemCount: itemsList.length,
+            //   crossAxisCount: 2,
+            //   builder: (context, index) {
+            //     final productId = itemsList[index].productId;
+            //     final productEntity = productsCubit.findByProdId(productId);
+
+            //     if (productEntity == null) {
+            //       return const SizedBox.shrink();
+            //     }
+
+            //     return ProductItem(
+            //       key: Key(productEntity.productId),
+            //       productEntity: productEntity,
+            //     );
+            //   },
+            // ),
           );
-        },
-      ),
+        }
+
+        // الحالة الابتدائية أو أثناء التحميل
+        return const Scaffold(
+          body: EmptyScreen(
+            title: 'Your history is empty',
+            subtitle: 'No products has been viewed yet!',
+            buttonText: 'Shop now',
+            imagePath: 'assets/images/history.png',
+          ),
+        );
+      },
     );
+
+    //  Scaffold(
+
+    // body: ListView.builder(
+    //   // itemCount: viewedProdItemsList.length,
+    //   itemCount: 12,
+    //   itemBuilder: (ctx, index) {
+    //     return Padding(
+    //       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+    //       child: ViewedRecentlyItem(),
+    //       // child: ChangeNotifierProvider.value(
+    //       //     value: viewedProdItemsList[index],
+    //       //     child: ViewedRecentlyWidget()),
+    //     );
+    //   },
+    // ),
+    // );
   }
 }
 

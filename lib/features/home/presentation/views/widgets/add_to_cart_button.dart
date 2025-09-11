@@ -27,14 +27,14 @@ class _AddToCartButtonState extends State<AddToCartButton> {
       if (mounted) setState(() => _isTapped = false);
     });
 
-    //  context.read<CartCubit>().addProductWithAuthCheck(widget.productEntity);
+    context.read<CartCubit>().addProductWithAuthCheck(widget.productEntity);
   }
 
   @override
   Widget build(BuildContext context) {
-    // final isInCart = context.select<CartCubit, bool>(
-    //   (cubit) => cubit.isProductInCart(widget.productEntity.productId),
-    // );
+    final isInCart = context.select<CartCubit, bool>(
+      (cubit) => cubit.isProductInCart(widget.productEntity.productId),
+    );
 
     return AnimatedScale(
       scale: _isTapped ? 1.1 : 1.0,
@@ -58,8 +58,8 @@ class _AddToCartButtonState extends State<AddToCartButton> {
           ),
           onPressed: _onTapAddToCart,
           child: Text(
-            "hh",
-            //   isInCart ? 'In cart' : 'Add to cart',
+            // "hh",
+            isInCart ? 'In cart' : 'Add to cart',
             style: TextStyle(fontSize: 18),
           ),
         ),

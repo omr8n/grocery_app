@@ -1,67 +1,159 @@
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:grocery_app/core/cubits/orders_cubit/orders_cubit.dart';
+// import 'package:grocery_app/core/cubits/orders_cubit/orders_state.dart';
+
+// import 'package:grocery_app/core/widgets/custom_text.dart';
+// import 'package:grocery_app/features/inner_screens/orders/widgets/order_view_bloc_builder.dart';
+// import 'package:grocery_app/features/inner_screens/orders/widgets/order_view_body.dart';
+// // import 'package:grocery_app/features/cart/presentation/manger/cubits/cart_cubit/cart_cubit.dart';
+// // import 'package:grocery_app/features/inner_screens/orders/widgets/order_view_bloc_builder.dart';
+// import 'package:grocery_app/features/inner_screens/orders/widgets/order_view_body_list_view.dart';
+
+// import '../../../core/widgets/back_widget.dart';
+
+// // // import 'widgets/order_view_body.dart';
+
+// // class OrdersView extends StatefulWidget {
+// //   static const String routeName = '/OrderScreen';
+
+// //   const OrdersView({super.key});
+
+// //   @override
+// //   State<OrdersView> createState() => _OrdersViewState();
+// // }
+
+// // class _OrdersViewState extends State<OrdersView> {
+// //   @override
+// //   void initState() {
+// //     super.initState();
+// //     context.read<OrdersCubit>().fetchUserOrders();
+// //   }
+
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     // final itemCount = context.watch<CartCubit>().cartItems.length;
+// //     return Scaffold(
+// //       appBar: AppBar(
+// //         leading: const BackWidget(),
+// //         elevation: 0,
+// //         centerTitle: false,
+// //         title: CustomText(
+// //           text: 'Your orders ()',
+// //           fontSize: 24.0,
+// //           isTitle: true,
+// //         ),
+// //         backgroundColor: Theme.of(
+// //           context,
+// //         ).scaffoldBackgroundColor.withOpacity(0.9),
+// //    //   ),
+// //       body: OrderViewBlocBuilder(),
+// //     );
+// //     // return OrderViewBlocBuilder();
+// //     // isEmpty
+// //     // ? const
+// //     // :
+
+// //     // });
+// //   }
+// // }
+// class OrdersView extends StatefulWidget {
+//   static const String routeName = '/OrderScreen';
+
+//   const OrdersView({super.key});
+
+//   @override
+//   State<OrdersView> createState() => _OrdersViewState();
+// }
+
+// class _OrdersViewState extends State<OrdersView> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     context.read<OrdersCubit>().fetchUserOrders();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         leading: const BackWidget(),
+//         elevation: 0,
+//         centerTitle: false,
+//         title: BlocBuilder<OrdersCubit, OrdersState>(
+//           builder: (context, state) {
+//             int count = 0;
+//             if (state is AllOrderSuccess) {
+//               count = state.orders.length;
+//             }
+//             return CustomText(
+//               text: 'Your orders ($count)',
+//               fontSize: 24.0,
+//               isTitle: true,
+//             );
+//           },
+//         ),
+//         backgroundColor: Theme.of(
+//           context,
+//         ).scaffoldBackgroundColor.withOpacity(0.9),
+//       ),
+//       body: const OrderViewBlocBuilder(),
+//     );
+//   }
+// }
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery_app/core/cubits/orders_cubit/orders_cubit.dart';
+import 'package:grocery_app/core/cubits/orders_cubit/orders_state.dart';
+import 'package:grocery_app/core/widgets/back_widget.dart';
 import 'package:grocery_app/core/widgets/custom_text.dart';
+import 'package:grocery_app/features/inner_screens/orders/widgets/order_view_bloc_builder.dart';
 
-import '../../../core/widgets/back_widget.dart';
-import 'orders_widget.dart';
-
-class OrdersView extends StatelessWidget {
-  static const routeName = '/OrderScreen';
+class OrdersView extends StatefulWidget {
+  static const String routeName = '/OrderScreen';
 
   const OrdersView({super.key});
 
   @override
+  State<OrdersView> createState() => _OrdersViewState();
+}
+
+class _OrdersViewState extends State<OrdersView> {
+  @override
+  void initState() {
+    super.initState();
+    // 👈 هنا تجيب طلبات المستخدم
+    context.read<OrdersCubit>().fetchUserOrders();
+    // لو بدك للأدمن استبدلها بـ fetchAllOrders()
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // final ordersProvider = Provider.of<OrdersProvider>(context);
-    // final ordersList = ordersProvider.getOrders;
-    //  bool isEmpty = true;
-    // return FutureBuilder(
-    //     future: ordersProvider.fetchOrders(),
-    //     builder: (context, snapshot) {
-    // return ordersList.isEmpty
-    return
-    // isEmpty
-    // ? const EmptyScreen(
-    //     title: 'You didnt place any order yet',
-    //     subtitle: 'order something and make me happy :)',
-    //     buttonText: 'Shop now',
-    //     imagePath: 'assets/images/cart.png',
-    //   )
-    // :
-    Scaffold(
+    return Scaffold(
       appBar: AppBar(
         leading: const BackWidget(),
         elevation: 0,
         centerTitle: false,
-        title: CustomText(
-          //     text: 'Your orders (${ordersList.length})',
-          text: 'Your orders (\$32)',
-
-          fontSize: 24.0,
-          isTitle: true,
+        title: BlocBuilder<OrdersCubit, OrdersState>(
+          builder: (context, state) {
+            int count = 0;
+            if (state is UserOrdersLoaded) {
+              count = state.orders.length;
+            } else if (state is AllOrderSuccess) {
+              count = state.orders.length;
+            }
+            return CustomText(
+              text: 'Your orders ($count)',
+              fontSize: 24.0,
+              isTitle: true,
+            );
+          },
         ),
         backgroundColor: Theme.of(
           context,
         ).scaffoldBackgroundColor.withOpacity(0.9),
       ),
-      body: ListView.separated(
-        //          itemCount: ordersList.length,
-        itemCount: 12,
-        itemBuilder: (ctx, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
-            // child: ChangeNotifierProvider.value(
-            //   value: ordersList[index],
-            //   child: const OrderWidget(),
-            // ),
-            child: OrderItem(),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider(thickness: 1);
-        },
-      ),
+      body: const OrderViewBlocBuilder(),
     );
-    // });
   }
 }

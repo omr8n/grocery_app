@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery_app/core/widgets/loading_manager.dart';
 
 // import '../../../../../core/helper_functions/build_error_bar.dart';
 
@@ -25,7 +26,7 @@ class SigninViewBodyBlocConsumer extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return CustomProgressHud(
+        return LoadingManager(
           isLoading: state is SigninLoading ? true : false,
           child: const SigninViewBody(),
         );

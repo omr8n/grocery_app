@@ -2,11 +2,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grocery_app/core/cubits/orders_cubit/orders_cubit.dart';
 import 'package:grocery_app/core/cubits/products_cubit/products_cubit.dart';
+import 'package:grocery_app/core/cubits/viewed_recently_cubit/viewed_recently_cubit.dart';
+import 'package:grocery_app/core/repos/order_repo/order_repo.dart';
+import 'package:grocery_app/core/repos/wishlist_repo/wishlist_repo.dart';
 import 'package:grocery_app/core/services/init_getit.dart';
 
 import 'core/cubits/theme_cubit/theme_cubit.dart';
 import 'core/cubits/theme_cubit/theme_state.dart';
+import 'core/cubits/wishlist_cubit/wishlist_cubit.dart';
 import 'core/helper/on_generate_routes.dart';
 import 'core/repos/cart_repo/cart_repo.dart';
 import 'core/repos/products_repo/products_repo.dart';
@@ -47,6 +52,13 @@ class MyApp extends StatelessWidget {
         BlocProvider<CartCubit>(
           create: (_) => CartCubit(getIt.get<CartRepo>()),
         ),
+        BlocProvider<OrdersCubit>(
+          create: (_) => OrdersCubit(getIt.get<OrdersRepo>()),
+        ),
+        BlocProvider<WishlistCubit>(
+          create: (_) => WishlistCubit(getIt.get<WishlistRepo>()),
+        ),
+        BlocProvider<ViewedProdCubit>(create: (_) => ViewedProdCubit()),
         //   BlocProvider<CartItemCubit>(create: (_) => CartItemCubit()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
