@@ -1,74 +1,7 @@
-// import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
-// import 'package:flutter/material.dart';
-// import 'package:grocery_app/core/widgets/custom_text.dart';
-// import 'package:grocery_app/features/inner_screens/product_details_view.dart';
-
-// import '../../../core/helper/functions/global_methods.dart';
-// import '../../../core/utils/utils.dart';
-
-// class OrderItem extends StatefulWidget {
-//   const OrderItem({super.key});
-
-//   @override
-//   State<OrderItem> createState() => _OrderItemState();
-// }
-
-// class _OrderItemState extends State<OrderItem> {
-//   late String orderDateToShow;
-
-//   @override
-//   void didChangeDependencies() {
-//     // final ordersModel = Provider.of<OrderModel>(context);
-//     // var orderDate = ordersModel.orderDate.toDate();
-//     // orderDateToShow = '${orderDate.day}/${orderDate.month}/${orderDate.year}';
-//     super.didChangeDependencies();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // final ordersModel = Provider.of<OrderModel>(context);
-//     // final Color color = Utils(context).color;
-//     Size size = Utils(context).getScreenSize;
-//     // final productProvider = Provider.of<ProductsProvider>(context);
-//     // final getCurrProduct = productProvider.findProdById(ordersModel.productId);
-//     return ListTile(
-//       // subtitle:
-//       //     Text('Paid: \$${double.parse(ordersModel.price).toStringAsFixed(2)}'),
-//       onTap: () {
-//         GlobalMethods.navigateTo(
-//           ctx: context,
-//           routeName: ProductDetailsView.routeName,
-//         );
-//       },
-//       leading: FancyShimmerImage(
-//         width: size.width * 0.2,
-//         // imageUrl: getCurrProduct.imageUrl,
-//         imageUrl:
-//             "https://m.media-amazon.com/images/I/61dV53UuRVS.__AC_SX300_SY300_QL70_FMwebp_.jpg",
-//         boxFit: BoxFit.fill,
-//       ),
-//       title: CustomText(
-//         // text: '${getCurrProduct.title}  x${ordersModel.quantity}',
-//         text: "fwe \$63",
-//         fontSize: 18,
-//       ),
-//       subtitle: Text('Paid: \$32'),
-//       trailing: CustomText(text: "orderDateToShow", fontSize: 18),
-//     );
-//   }
-// }
-
 import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:e_commerce_shop_smart/core/entities/order_entity.dart';
-// import 'package:e_commerce_shop_smart/core/models/order_model.dart';
-// import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:grocery_app/core/entites/order_entity.dart';
-// import 'package:grocery_app/core/entites/order_entity.dart';
-
-// import '../../../core/constants/app_constants.dart';
-// import '../../../core/widgets/subtitle_text.dart';
-// import '../../../core/widgets/title_text.dart';
 
 class OrderItem extends StatelessWidget {
   final OrderEntity order;
@@ -150,6 +83,12 @@ class OrderItem extends StatelessWidget {
               itemCount: order.orderProducts.length,
               itemBuilder: (context, index) {
                 final product = order.orderProducts[index];
+                // نحدد السعر الفعلي للعرض
+                final displayPrice =
+                    (product.isOnSale == true && product.onSale != null)
+                    ? product.onSale!
+                    : product.price;
+
                 return ListTile(
                   leading: CachedNetworkImage(
                     imageUrl: product.imageUrl,
@@ -163,10 +102,10 @@ class OrderItem extends StatelessWidget {
                   ),
                   title: Text(product.name),
                   subtitle: Text(
-                    'Quantity: ${product.quantity} | Price: \$${product.price.toStringAsFixed(2)}',
+                    'Quantity: ${product.quantity} | Price: \$${displayPrice.toStringAsFixed(2)}',
                   ),
                   trailing: Text(
-                    '\$${(product.price * product.quantity).toStringAsFixed(2)}',
+                    '\$${(displayPrice * product.quantity).toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
@@ -176,6 +115,37 @@ class OrderItem extends StatelessWidget {
               },
             ),
 
+            // ListView.builder(
+            //   shrinkWrap: true,
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   itemCount: order.orderProducts.length,
+            //   itemBuilder: (context, index) {
+            //     final product = order.orderProducts[index];
+            //     return ListTile(
+            //       leading: CachedNetworkImage(
+            //         imageUrl: product.imageUrl,
+            //         placeholder: (context, url) => const SizedBox(
+            //           width: 24,
+            //           height: 24,
+            //           child: CircularProgressIndicator(),
+            //         ),
+            //         errorWidget: (context, url, error) =>
+            //             const Icon(Icons.error),
+            //       ),
+            //       title: Text(product.name),
+            //       subtitle: Text(
+            //         'Quantity: ${product.quantity} | Price: \$${product.price.toStringAsFixed(2)}',
+            //       ),
+            //       trailing: Text(
+            //         '\$${(product.price * product.quantity).toStringAsFixed(2)}',
+            //         style: const TextStyle(
+            //           fontWeight: FontWeight.bold,
+            //           color: Colors.green,
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
             const SizedBox(height: 16),
             //   OrderActionButtons(orderEntity: orderModel),
           ],

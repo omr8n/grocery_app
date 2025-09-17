@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:grocery_app/core/entites/product_entity.dart';
+// import 'package:grocery_app/core/models/order_product_model.dart';
 import 'package:grocery_app/features/cart/domain/entites/cart_item_entity.dart';
 import 'package:grocery_app/features/cart/presentation/manger/cubits/cart_cubit/cart_cubit.dart';
 import 'package:grocery_app/features/cart/presentation/view/widgets/cart_list_view.dart';
@@ -111,32 +113,37 @@ class _CartViewBodyState extends State<CartViewBody> {
       cartItems: cartItems.map(CartItemModel.fromEntity).toList(),
     );
 
-    final orderProducts = cartItems
-        .map(
-          (item) => OrderProductEntity(
-            name: item.productEntity.name,
-            imageUrl: item.productEntity.imageUrl ?? '',
-            price: item.productEntity.price,
-            quantity: item.quantity,
-          ),
-        )
-        .toList();
+    // إنشاء منتجات الطلب مع أخذ الكمية من CartItemEntity
+    final orderProducts = cartItems.map((cartItem) {
+      final product = cartItem.productEntity;
+      final priceToUse = (product.isOnSale && product.salePrice != null)
+          ? product.salePrice ?? 0.0
+          : product.price;
+
+      return OrderProductEntity(
+        name: product.name,
+        imageUrl: product.imageUrl ?? '',
+        price: priceToUse,
+        quantity: cartItem.quantity, // ✅ الكمية الصحيحة
+      );
+    }).toList();
+
+    // حساب المجموع النهائي بناء على الكمية والأسعار
+    final adjustedTotalPrice = orderProducts.fold<double>(
+      0.0,
+      (sum, item) => sum + (item.price * item.quantity),
+    );
 
     final userEntity = UserEntity(
       name: getUser().name,
       email: getUser().email,
       uId: getUser().uId,
-      // userImage: user.photoURL,
-      // image: null,
-      // createdAt: null,
-      // userCart: null,
-      // userWish: null,
     );
 
     context.read<OrdersCubit>().addOrder(
       cartEntity: cartModel.toEntity(),
       orderProducts: orderProducts,
-      totalPrice: totalPrice,
+      totalPrice: adjustedTotalPrice,
       userEntity: userEntity,
     );
   }

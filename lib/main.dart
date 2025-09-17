@@ -8,6 +8,7 @@ import 'package:grocery_app/core/cubits/viewed_recently_cubit/viewed_recently_cu
 import 'package:grocery_app/core/repos/order_repo/order_repo.dart';
 import 'package:grocery_app/core/repos/wishlist_repo/wishlist_repo.dart';
 import 'package:grocery_app/core/services/init_getit.dart';
+import 'package:grocery_app/features/inner_screens/fetch_screen.dart';
 
 import 'core/cubits/theme_cubit/theme_cubit.dart';
 import 'core/cubits/theme_cubit/theme_state.dart';
@@ -20,7 +21,7 @@ import 'core/services/shared_preferences_singleton.dart';
 import 'core/constants/theme_data.dart';
 import 'features/cart/presentation/manger/cubits/cart_cubit/cart_cubit.dart';
 // import 'features/cart/presentation/manger/cubits/cart_item_cubit/cart_item_cubit.dart';
-import 'features/root/presentation/views/root_view.dart';
+// import 'features/root/presentation/views/root_view.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -46,8 +47,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
         BlocProvider<ProductsCubit>(
-          create: (_) =>
-              ProductsCubit(getIt.get<ProductsRepo>())..getProducts(),
+          create: (_) => ProductsCubit(getIt.get<ProductsRepo>()),
         ),
         BlocProvider<CartCubit>(
           create: (_) => CartCubit(getIt.get<CartRepo>()),
@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
             theme: state is LightThemeState
                 ? MyThemeData.lightTheme
                 : MyThemeData.darkTheme,
-            initialRoute: RootView.routeName,
+            initialRoute: FetchScreen.routeName,
             onGenerateRoute: onGenerateRoute,
           );
         },

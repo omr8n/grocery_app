@@ -183,6 +183,70 @@ import '../../repos/products_repo/products_repo.dart';
 
 part 'products_state.dart';
 
+// class ProductsCubit extends Cubit<ProductsState> {
+//   ProductsCubit(this.productsRepo) : super(ProductsInitial());
+
+//   final ProductsRepo productsRepo;
+//   StreamSubscription? streamSubscription;
+
+//   List<ProductEntity> _allProducts = [];
+
+//   Future<void> getProducts() async {
+//     emit(ProductsLoading());
+
+//     streamSubscription = productsRepo.getProducts().listen((result) {
+//       result.fold((failure) => emit(ProductsFailure(failure.message)), (
+//         products,
+//       ) {
+//         _allProducts = products;
+//         emit(ProductsSuccess(products.reversed.toList()));
+//       });
+//     });
+//   }
+
+//   ProductEntity? findByProdId(String productId) {
+//     try {
+//       return _allProducts.firstWhere(
+//         (product) => product.productId == productId,
+//       );
+//     } catch (e) {
+//       return null;
+//     }
+//   }
+
+//   void filterByCategory({required String categoryName}) {
+//     final List<ProductEntity> filteredList = _allProducts
+//         .where(
+//           (product) => product.category.toLowerCase().contains(
+//             categoryName.toLowerCase(),
+//           ),
+//         )
+//         .toList();
+
+//     emit(ProductsSuccess(filteredList.reversed.toList()));
+//   }
+
+//   void searchProducts({
+//     required String searchText,
+//     required List<ProductEntity> productsList,
+//   }) {
+//     final List<ProductEntity> searchList = productsList.where((product) {
+//       return product.name.toLowerCase().contains(searchText.toLowerCase());
+//     }).toList();
+
+//     emit(ProductsSuccess(searchList.reversed.toList()));
+//   }
+
+//   void resetProducts() {
+//     emit(ProductsSuccess(_allProducts.reversed.toList()));
+//   }
+
+//   // @override
+//   // Future<void> close() {
+//   //   _streamSubscription?.cancel();
+//   //   return super.close();
+//   // }
+// }
 class ProductsCubit extends Cubit<ProductsState> {
   ProductsCubit(this.productsRepo) : super(ProductsInitial());
 
@@ -190,6 +254,10 @@ class ProductsCubit extends Cubit<ProductsState> {
   StreamSubscription? streamSubscription;
 
   List<ProductEntity> _allProducts = [];
+  List<ProductEntity> _filteredProducts = [];
+
+  List<ProductEntity> get allProducts => _allProducts;
+  List<ProductEntity> get filteredProducts => _filteredProducts;
 
   Future<void> getProducts() async {
     emit(ProductsLoading());
@@ -199,10 +267,21 @@ class ProductsCubit extends Cubit<ProductsState> {
         products,
       ) {
         _allProducts = products;
+        _filteredProducts = []; // نفرغ الفلترة عند التحميل
         emit(ProductsSuccess(products.reversed.toList()));
       });
     });
   }
+
+  // List<ProductEntity> get onSaleProducts =>
+  //     _allProducts.where((p) => p.isOnSale && p.salePrice != null).toList();
+
+  // void searchOnSale(String query) {
+  //   final filtered = onSaleProducts
+  //       .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
+  //       .toList();
+  //   emit(ProductsSuccess(filtered));
+  // }
 
   ProductEntity? findByProdId(String productId) {
     try {
@@ -215,7 +294,7 @@ class ProductsCubit extends Cubit<ProductsState> {
   }
 
   void filterByCategory({required String categoryName}) {
-    final List<ProductEntity> filteredList = _allProducts
+    _filteredProducts = _allProducts
         .where(
           (product) => product.category.toLowerCase().contains(
             categoryName.toLowerCase(),
@@ -223,27 +302,27 @@ class ProductsCubit extends Cubit<ProductsState> {
         )
         .toList();
 
-    emit(ProductsSuccess(filteredList.reversed.toList()));
+    emit(ProductsSuccess(_filteredProducts.reversed.toList()));
   }
 
   void searchProducts({
     required String searchText,
     required List<ProductEntity> productsList,
   }) {
-    final List<ProductEntity> searchList = productsList.where((product) {
-      return product.name.toLowerCase().contains(searchText.toLowerCase());
-    }).toList();
+    _filteredProducts = productsList
+        .where(
+          (product) =>
+              product.name.toLowerCase().contains(searchText.toLowerCase()),
+        )
+        .toList();
 
-    emit(ProductsSuccess(searchList.reversed.toList()));
+    emit(ProductsSuccess(_filteredProducts.reversed.toList()));
   }
 
   void resetProducts() {
+    _filteredProducts = [];
     emit(ProductsSuccess(_allProducts.reversed.toList()));
   }
 
-  // @override
-  // Future<void> close() {
-  //   _streamSubscription?.cancel();
-  //   return super.close();
-  // }
+  bool get hasFilter => _filteredProducts.isNotEmpty;
 }

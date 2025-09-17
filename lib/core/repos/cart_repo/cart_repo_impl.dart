@@ -31,6 +31,7 @@
 //     }
 //   }
 // }
+
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/errors/failures.dart';
@@ -46,7 +47,7 @@ class CartRepoImpl implements CartRepo {
   CartRepoImpl(this.databaseService);
 
   @override
-  Future<Either<Failure, Unit>> updateUserCart({
+  Future<Either<Failure, void>> updateUserCart({
     required UserModel userModel,
     required List<CartItemModel> cartItems,
   }) async {
@@ -56,7 +57,7 @@ class CartRepoImpl implements CartRepo {
         documentId: userModel.uId,
         data: {'userCart': cartItems.map((item) => item.toJson()).toList()},
       );
-      return const Right(unit); // بدل null
+      return const Right(null); // بدل null
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

@@ -202,6 +202,7 @@ import 'package:grocery_app/core/entites/order_entity.dart';
 import 'package:grocery_app/core/models/cart_model.dart';
 // import '../entites/order_entity.dart';
 // import 'cart_model.dart';
+
 import 'order_product_model.dart';
 
 class OrderModel {
@@ -210,7 +211,8 @@ class OrderModel {
   final String userName;
   final String userEmail;
   final String? userImage;
-  final CartModel cartModel;
+  // final CartModel cartModel;
+
   final List<OrderProductModel> orderProducts;
   final double totalPrice;
   final Timestamp orderDate;
@@ -222,7 +224,7 @@ class OrderModel {
     required this.userName,
     required this.userEmail,
     this.userImage,
-    required this.cartModel,
+    // required this.cartModel,
     required this.orderProducts,
     required this.totalPrice,
     required this.orderDate,
@@ -239,7 +241,7 @@ class OrderModel {
       orderProducts: (json['orderProducts'] as List? ?? [])
           .map((e) => OrderProductModel.fromJson(e))
           .toList(),
-      cartModel: CartModel.fromJson(json['cartModel'] ?? {}),
+      // cartModel: CartModel.fromJson(json['cartModel'] ?? {}),
       orderDate: json['orderDate'] is Timestamp
           ? json['orderDate']
           : Timestamp.fromDate(
@@ -257,7 +259,7 @@ class OrderModel {
     'userEmail': userEmail,
     'userImage': userImage,
     'orderProducts': orderProducts.map((e) => e.toJson()).toList(),
-    'cartModel': cartModel.toJson(),
+    // 'cartModel': cartModel.toJson(),
     'totalPrice': totalPrice,
     'orderDate': orderDate,
     'status': status ?? 'pending',
@@ -269,23 +271,38 @@ class OrderModel {
     userName: userName,
     userEmail: userEmail,
     userImage: userImage,
-    cartEntity: cartModel.toEntity(),
+    // cartEntity: cartModel.toEntity(),
     orderProducts: orderProducts.map((e) => e.toEntity()).toList(),
     totalPrice: totalPrice,
     orderDate: orderDate,
   );
-
   factory OrderModel.fromEntity(OrderEntity entity) => OrderModel(
     orderID: entity.orderID,
     uId: entity.uId,
     userName: entity.userName,
     userEmail: entity.userEmail,
     userImage: entity.userImage,
-    cartModel: CartModel.fromEntity(entity.cartEntity),
-    orderProducts: entity.orderProducts
-        .map((e) => OrderProductModel.fromEntity(e))
+    orderProducts: entity.cartEntity!.cartItems
+        .map((e) => OrderProductModel.fromEntity(entity: e))
         .toList(),
     totalPrice: entity.totalPrice,
     orderDate: entity.orderDate,
   );
+
+  // factory OrderModel.fromEntity(OrderEntity entity) => OrderModel(
+  //   orderID: entity.orderID,
+  //   uId: entity.uId,
+  //   userName: entity.userName,
+  //   userEmail: entity.userEmail,
+  //   userImage: entity.userImage,
+  //   // cartModel: CartModel.fromEntity(entity.cartEntity),
+  //   // orderProducts: entity.orderProducts
+  //   //     .map((e) => OrderProductModel.fromEntity(e))
+  //   //     .toList(),
+  //   orderProducts: entity.  .cartItems
+  //       .map((e) => OrderProductModel.fromEntity(cartItemEntity: e))
+  //       .toList(),
+  //   totalPrice: entity.totalPrice,
+  //   orderDate: entity.orderDate,
+  // );
 }

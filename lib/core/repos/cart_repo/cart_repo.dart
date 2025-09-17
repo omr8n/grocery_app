@@ -17,7 +17,7 @@ import '../../../features/inner_screens/auth/data/models/user_model.dart';
 import '../../models/cart_item_model.dart';
 
 abstract class CartRepo {
-  Future<Either<Failure, Unit>> updateUserCart({
+  Future<Either<Failure, void>> updateUserCart({
     required UserModel userModel,
     required List<CartItemModel> cartItems,
   });

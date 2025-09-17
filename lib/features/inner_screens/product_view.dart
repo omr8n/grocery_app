@@ -29,7 +29,7 @@ class ProductsView extends StatelessWidget {
           isTitle: true,
         ),
       ),
-      body: ProductViewBody(),
+      body: ProductViewBody(passedCategory: passedCategory),
     );
   }
 }

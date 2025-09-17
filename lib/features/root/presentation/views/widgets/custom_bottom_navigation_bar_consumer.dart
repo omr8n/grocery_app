@@ -335,31 +335,59 @@ class CustomBottomNavigationBarConsumer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CartCubit, CartState>(
+    return BlocListener<CartCubit, CartState>(
+      listenWhen: (previous, current) =>
+          previous.runtimeType != current.runtimeType,
       listener: (context, state) {
         if (state is CartAuthRequired) {
           _showAuthDialog(context);
         } else if (state is CartItemAdded) {
-          _showSnackBar(context, state.message, Colors.green);
+          _showSnackBar(context, "تمت إضافة المنتج إلى السلة", Colors.green);
         } else if (state is CartItemRemoved) {
-          _showSnackBar(context, state.message, Colors.red);
+          _showSnackBar(context, "تمت إزالة المنتج ", Colors.red);
         }
       },
-      builder: (context, state) {
-        return child;
-      },
+      child: child,
     );
+
+    // return BlocConsumer<CartCubit, CartState>(
+    //   listener: (context, state) {
+    //     if (state is CartAuthRequired) {
+    //       //  _showAuthDialog(context);
+    //     } else if (state is CartItemAdded) {
+    //       //_showSnackBar(context, "تمت إضافة المنتج إلى السلة", Colors.green);
+    //     } else if (state is CartItemRemoved) {
+    //       _showSnackBar(context, "تمت إزالة المنتج ", Colors.red);
+    //     }
+    //   },
+
+    //   builder: (context, state) {
+    //     return child;
+    //   },
+    // );
   }
 
+  // void _showSnackBar(BuildContext context, String message, Color color) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(message),
+  //       backgroundColor: color,
+  //       duration: const Duration(seconds: 2),
+  //       behavior: SnackBarBehavior.floating,
+  //     ),
+  //   );
+  // }
   void _showSnackBar(BuildContext context, String message, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: color,
-        duration: const Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar() // يخفي أي SnackBar موجود
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: color,
+          duration: const Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
   }
 
   void _showAuthDialog(BuildContext context) {

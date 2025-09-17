@@ -51,25 +51,6 @@ class CartView extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            // onPressed: () {
-            //   GlobalMethods.warningDialog(
-            //     title: 'Empty your cart?',
-            //     subtitle: 'Are you sure?',
-            //     fct: () async {
-            //       await GlobalMethods.showErrorORWarningDialog(
-            //         isError: false,
-            //         context: context,
-            //         subtitle: "Remove all items?",
-            //         fct: () {
-            //           context.read<CartCubit>().clearCart();
-            //         },
-            //       );
-            //       // await cartProvider.clearOnlineCart();
-            //       // cartProvider.clearLocalCart();
-            //     },
-            //     context: context,
-            //   );
-            // },
             onPressed: () {
               if (context.read<CartCubit>().items.isNotEmpty) {
                 GlobalMethods.showErrorORWarningDialog(
@@ -83,23 +64,6 @@ class CartView extends StatelessWidget {
               }
             },
 
-            // onPressed: () {
-            //   GlobalMethods.warningDialog(
-            //     title: 'Empty your cart?',
-            //     subtitle: 'Are you sure?',
-            //     fct: () async {
-            //       await GlobalMethods.showErrorORWarningDialog(
-            //         isError: false,
-            //         context: context,
-            //         subtitle: "Remove all items?",
-            //         fct: () {
-            //           context.read<CartCubit>().clearCart();
-            //         },
-            //       );
-            //     },
-            //     context: context,
-            //   );
-            // },
             icon: Icon(IconlyBroken.delete),
           ),
         ],

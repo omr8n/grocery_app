@@ -112,7 +112,11 @@ class HomeViewBody extends StatelessWidget {
         ),
 
         /// Grid المنتجات
-        ProductGridViewBlocBuilder(),
+        // ProductGridViewBlocBuilder(),
+        ProductGridViewBlocBuilder(
+          showAll: false,
+          useFiltered: false, // 👈 يعرض كل المنتجات
+        ),
       ],
     );
   }

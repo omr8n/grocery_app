@@ -15,8 +15,13 @@ import '../../../../../core/utils/utils.dart';
 import 'price_item.dart';
 
 class OnSaleItem extends StatelessWidget {
-  const OnSaleItem({super.key, required this.productEntity});
+  const OnSaleItem({
+    super.key,
+    required this.productEntity,
+    this.showAll = false,
+  });
   final ProductEntity productEntity;
+  final bool showAll;
   @override
   Widget build(BuildContext context) {
     //  final Color color = Utils(context).color;
@@ -89,7 +94,7 @@ class OnSaleItem extends StatelessWidget {
                 ),
                 PriceItem(
                   price: productEntity.price,
-                  salePrice: productEntity.salePrice,
+                  salePrice: productEntity.salePrice!,
                   // salePrice: productModel.salePrice,
                   // price: productModel.price,
                   //salePrice: 21,

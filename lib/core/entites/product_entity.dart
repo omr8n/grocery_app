@@ -182,7 +182,7 @@ class ProductEntity extends Equatable {
   final String category;
   final String quantity;
   final List<ReviewEntity> reviews;
-  final double salePrice;
+  final double? salePrice;
   final bool isOnSale;
   final bool isPiece;
 

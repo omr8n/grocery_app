@@ -114,7 +114,7 @@ class _ProductItemState extends State<ProductItem> {
                       flex: 3,
                       child: FittedBox(
                         child: PriceItem(
-                          salePrice: widget.product.salePrice,
+                          salePrice: widget.product.salePrice!,
                           price: widget.product.price,
                           // salePrice: 4,
                           // price: 6,

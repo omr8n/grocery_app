@@ -109,6 +109,8 @@
 //     );
 //   }
 // }
+import 'package:grocery_app/features/cart/domain/entites/cart_item_entity.dart';
+
 import '../entites/order_product_entity.dart';
 
 class OrderProductModel {
@@ -151,11 +153,11 @@ class OrderProductModel {
     );
   }
 
-  factory OrderProductModel.fromEntity(OrderProductEntity entity) {
+  factory OrderProductModel.fromEntity({required CartItemEntity entity}) {
     return OrderProductModel(
-      name: entity.name,
-      imageUrl: entity.imageUrl,
-      price: entity.price,
+      name: entity.productEntity.name,
+      imageUrl: entity.productEntity.imageUrl!,
+      price: entity.productEntity.price,
       quantity: entity.quantity,
     );
   }

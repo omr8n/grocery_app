@@ -389,18 +389,30 @@ class OrdersCubit extends Cubit<OrdersState> {
     required UserEntity userEntity,
   }) async {
     emit(OrderAdding());
-
     final order = OrderEntity(
       orderID: await ordersRepo.generateOrderId(),
       uId: userEntity.uId,
       userName: userEntity.name,
       userEmail: userEntity.email,
       // userImage: userEntity.userImage,
-      cartEntity: cartEntity,
+      cartEntity: cartEntity, // ✅ أضف هذا
       orderProducts: orderProducts,
       totalPrice: totalPrice,
       orderDate: Timestamp.now(),
     );
+
+    // final order = OrderEntity(
+    //   orderID: await ordersRepo.generateOrderId(),
+    //   uId: userEntity.uId,
+    //   userName: userEntity.name,
+    //   userEmail: userEntity.email,
+    //   // userImage: userEntity.userImage,
+    //   //  cartEntity: cartEntity,
+    //   orderProducts: orderProducts,
+    //   totalPrice: totalPrice,
+
+    //   orderDate: Timestamp.now(),
+    // );
 
     final result = await ordersRepo.addOrder(order: order);
 

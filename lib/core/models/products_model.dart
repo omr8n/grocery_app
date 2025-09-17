@@ -246,7 +246,7 @@ class ProductModel {
   final String imageUrl;
   final String productCategoryName;
   final double price;
-  final double salePrice;
+  final double? salePrice;
   final bool isOnSale;
   final bool isPiece;
   final List<ReviewModel> reviews;

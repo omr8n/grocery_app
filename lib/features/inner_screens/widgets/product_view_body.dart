@@ -312,6 +312,160 @@ import '../../../core/cubits/products_cubit/products_cubit.dart';
 import '../../home/presentation/views/widgets/products_grid_view_builder.dart';
 // import 'widgets/products_grid_view_builder.dart';
 
+// class ProductViewBody extends StatefulWidget {
+//   const ProductViewBody({super.key, this.passedCategory});
+//   final String? passedCategory;
+
+//   @override
+//   State<ProductViewBody> createState() => _ProductViewBodyState();
+// }
+
+// class _ProductViewBodyState extends State<ProductViewBody> {
+//   final TextEditingController searchTextController = TextEditingController();
+//   final FocusNode _searchTextFocusNode = FocusNode();
+//   StreamSubscription? _productsSubscription;
+
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     // جلب المنتجات
+//     context.read<ProductsCubit>().getProducts();
+
+//     // فلترة حسب الفئة إذا تم تمريرها
+//     WidgetsBinding.instance.addPostFrameCallback((_) {
+//       final category = widget.passedCategory;
+//       if (category != null && category.isNotEmpty) {
+//         final cubit = context.read<ProductsCubit>();
+//         if (cubit.state is ProductsSuccess) {
+//           cubit.filterByCategory(categoryName: category);
+//         } else {
+//           _productsSubscription = cubit.stream.listen((state) {
+//             if (state is ProductsSuccess) {
+//               cubit.filterByCategory(categoryName: category);
+//               _productsSubscription?.cancel();
+//               _productsSubscription = null;
+//             }
+//           });
+//         }
+//       }
+//     });
+//   }
+
+//   @override
+//   void dispose() {
+//     searchTextController.dispose();
+//     _searchTextFocusNode.dispose();
+//     _productsSubscription?.cancel();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return CustomScrollView(
+//       slivers: [
+//         // مربع البحث
+//         SliverToBoxAdapter(
+//           child: Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: SizedBox(
+//               height: kBottomNavigationBarHeight,
+//               child: TextField(
+//                 controller: searchTextController,
+//                 focusNode: _searchTextFocusNode,
+//                 onChanged: (value) {
+//                   if (value.isNotEmpty) {
+//                     context.read<ProductsCubit>().searchProducts(
+//                       searchText: value,
+//                       productsList: context.read<ProductsCubit>().allProducts,
+//                     );
+//                   } else {
+//                     final category = widget.passedCategory;
+//                     if (category != null && category.isNotEmpty) {
+//                       context.read<ProductsCubit>().filterByCategory(
+//                         categoryName: category,
+//                       );
+//                     } else {
+//                       context.read<ProductsCubit>().resetProducts();
+//                     }
+//                   }
+//                 },
+//                 decoration: InputDecoration(
+//                   hintText: "What's in your mind?",
+//                   prefixIcon: const Icon(Icons.search),
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+
+//         // المنتجات (حسب الفئة)
+//         ProductGridViewBlocBuilder(
+//           showAll: true,
+//           useFiltered: true, // 👈 مهم
+//         ),
+//       ],
+//     );
+//   }
+
+//   // @override
+//   // Widget build(BuildContext context) {
+//   //   //    Size size = Utils(context).getScreenSize;
+
+//   //   return CustomScrollView(
+//   //     slivers: [
+//   //       /// مربع البحث
+//   //       SliverToBoxAdapter(
+//   //         child: Padding(
+//   //           padding: const EdgeInsets.all(8.0),
+//   //           child: SizedBox(
+//   //             height: kBottomNavigationBarHeight,
+//   //             child: TextField(
+//   //               focusNode: _searchTextFocusNode,
+//   //               controller: searchTextController,
+//   //               onChanged: (value) {
+//   //                 setState(() {});
+//   //               },
+//   //               decoration: InputDecoration(
+//   //                 focusedBorder: OutlineInputBorder(
+//   //                   borderRadius: BorderRadius.circular(12),
+//   //                   borderSide: const BorderSide(
+//   //                     color: Colors.greenAccent,
+//   //                     width: 1,
+//   //                   ),
+//   //                 ),
+//   //                 enabledBorder: OutlineInputBorder(
+//   //                   borderRadius: BorderRadius.circular(12),
+//   //                   borderSide: const BorderSide(
+//   //                     color: Colors.greenAccent,
+//   //                     width: 1,
+//   //                   ),
+//   //                 ),
+//   //                 hintText: "What's in your mind",
+//   //                 prefixIcon: const Icon(Icons.search),
+//   //                 suffix: IconButton(
+//   //                   onPressed: () {
+//   //                     searchTextController.clear();
+//   //                     _searchTextFocusNode.unfocus();
+//   //                     setState(() {});
+//   //                   },
+//   //                   icon: Icon(
+//   //                     Icons.close,
+//   //                     color: _searchTextFocusNode.hasFocus
+//   //                         ? Colors.red
+//   //                         : Colors.green,
+//   //                   ),
+//   //                 ),
+//   //               ),
+//   //             ),
+//   //           ),
+//   //         ),
+//   //       ),
+//   //       ProductGridViewBlocBuilder(showAll: true),
+//   //     ],
+//   //   );
+//   // }
+// }
 class ProductViewBody extends StatefulWidget {
   const ProductViewBody({super.key, this.passedCategory});
   final String? passedCategory;
@@ -329,18 +483,20 @@ class _ProductViewBodyState extends State<ProductViewBody> {
   void initState() {
     super.initState();
 
-    // جلب المنتجات
-    context.read<ProductsCubit>().getProducts();
+    final cubit = context.read<ProductsCubit>();
+    cubit.getProducts();
 
-    // فلترة حسب الفئة إذا تم تمريرها
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final category = widget.passedCategory;
       if (category != null && category.isNotEmpty) {
-        final cubit = context.read<ProductsCubit>();
+        if (!mounted) return;
+
         if (cubit.state is ProductsSuccess) {
           cubit.filterByCategory(categoryName: category);
         } else {
           _productsSubscription = cubit.stream.listen((state) {
+            if (!mounted) return;
+
             if (state is ProductsSuccess) {
               cubit.filterByCategory(categoryName: category);
               _productsSubscription?.cancel();
@@ -362,58 +518,78 @@ class _ProductViewBodyState extends State<ProductViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    //    Size size = Utils(context).getScreenSize;
-
     return CustomScrollView(
       slivers: [
-        /// مربع البحث
+        // مربع البحث
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
               height: kBottomNavigationBarHeight,
               child: TextField(
-                focusNode: _searchTextFocusNode,
                 controller: searchTextController,
+                focusNode: _searchTextFocusNode,
                 onChanged: (value) {
-                  setState(() {});
+                  final cubit = context.read<ProductsCubit>();
+                  final category = widget.passedCategory;
+
+                  if (value.isNotEmpty) {
+                    cubit.searchProducts(
+                      searchText: value,
+                      productsList: cubit.allProducts,
+                    );
+                  } else {
+                    if (category != null && category.isNotEmpty) {
+                      cubit.filterByCategory(categoryName: category);
+                    } else {
+                      cubit.resetProducts();
+                    }
+                  }
                 },
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Colors.greenAccent,
-                      width: 1,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                      color: Colors.greenAccent,
-                      width: 1,
-                    ),
-                  ),
-                  hintText: "What's in your mind",
-                  prefixIcon: const Icon(Icons.search),
-                  suffix: IconButton(
-                    onPressed: () {
-                      searchTextController.clear();
-                      _searchTextFocusNode.unfocus();
-                      setState(() {});
-                    },
-                    icon: Icon(
-                      Icons.close,
-                      color: _searchTextFocusNode.hasFocus
-                          ? Colors.red
-                          : Colors.green,
-                    ),
-                  ),
+                decoration: const InputDecoration(
+                  hintText: "What's in your mind?",
+                  prefixIcon: Icon(Icons.search),
                 ),
               ),
             ),
           ),
         ),
-        ProductGridViewBlocBuilder(showAll: true),
+
+        // المنتجات (حسب الفئة)
+        BlocBuilder<ProductsCubit, ProductsState>(
+          builder: (context, state) {
+            final cubit = context.read<ProductsCubit>();
+            final category = widget.passedCategory;
+            final products = (category != null && category.isNotEmpty)
+                ? cubit.filteredProducts
+                : cubit.allProducts;
+
+            if (products.isEmpty && category != null && category.isNotEmpty) {
+              return SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 50),
+                    const Icon(Icons.warning, size: 80, color: Colors.grey),
+                    const SizedBox(height: 10),
+                    Text(
+                      "No products found in this category",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            if (products.isEmpty) {
+              return const SliverToBoxAdapter(); // Home empty
+            }
+
+            return ProductGridViewBlocBuilder(
+              showAll: true,
+              useFiltered: category != null && category.isNotEmpty,
+            );
+          },
+        ),
       ],
     );
   }

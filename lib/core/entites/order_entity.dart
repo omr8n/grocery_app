@@ -50,6 +50,7 @@
 //     required this.orderDate,
 //   });
 // }
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../features/cart/domain/entites/cart_entity.dart';
 import 'order_product_entity.dart';
@@ -60,7 +61,7 @@ class OrderEntity {
   final String userName;
   final String userEmail;
   final String? userImage;
-  final CartEntity cartEntity;
+  final CartEntity? cartEntity;
   final List<OrderProductEntity> orderProducts;
   final double totalPrice;
   final Timestamp orderDate;
@@ -71,7 +72,7 @@ class OrderEntity {
     required this.userName,
     required this.userEmail,
     this.userImage,
-    required this.cartEntity,
+    this.cartEntity,
     required this.orderProducts,
     required this.totalPrice,
     required this.orderDate,
